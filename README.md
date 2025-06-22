@@ -1,30 +1,30 @@
-# Camerный ретрит
+# Виллагора - Карельский ретрит
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+Проект сайта для карельского ретрита в деревне Виллагора.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/drilspb4202s-projects/v0-camernyj-retrit)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/tmbL3u3f1L8)
+## Внесенные изменения
 
-## Overview
+- Удален адаптивный контент (квиз для подбора пакета, персональные рекомендации активностей, адаптивное меню питания, индивидуальный план подготовки)
+- Обновлена система работы с изображениями:
+  - Добавлена поддержка локального хранения в папке public/images
+  - Добавлена интеграция с Cloudinary для оптимизированной загрузки изображений
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## Технологии
 
-## Deployment
+- Next.js 15
+- React 19
+- Tailwind CSS
+- Radix UI компоненты
+- Cloudinary для оптимизации изображений
 
-Your project is live at:
+## Как запустить
 
-**[https://vercel.com/drilspb4202s-projects/v0-camernyj-retrit](https://vercel.com/drilspb4202s-projects/v0-camernyj-retrit)**
+```bash
+# Установка зависимостей
+pnpm install
 
-## Build your app
+# Запуск сервера разработки
+pnpm dev
+```
 
-Continue building your app on:
-
-**[https://v0.dev/chat/projects/tmbL3u3f1L8](https://v0.dev/chat/projects/tmbL3u3f1L8)**
-
-## How It Works
-
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+Сервер будет доступен по адресу [http://localhost:3000](http://localhost:3000)
