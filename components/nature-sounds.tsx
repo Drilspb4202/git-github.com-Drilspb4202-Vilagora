@@ -11,9 +11,11 @@ interface NatureSoundsProps {
 
 export function NatureSounds({ className = "" }: NatureSoundsProps) {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [volume, setVolume] = useState([0.3])
+  const [volume, setVolume] = useState([0.5])
   const [currentSound, setCurrentSound] = useState("forest")
   const [isExpanded, setIsExpanded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const sounds = [
@@ -22,122 +24,208 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
       name: "Лес",
       icon: "🌲",
       url: "/sounds/forest.mp3",
-      fallbackUrl: "https://www.soundjay.com/misc/sounds-765.wav",
+      fallbackUrl: "https://assets.mixkit.co/active_storage/sfx/212/212.mp3",
     },
     {
       id: "water",
       name: "Озеро",
       icon: "🌊",
       url: "/sounds/water.mp3",
-      fallbackUrl: "https://www.soundjay.com/misc/sounds-765.wav",
+      fallbackUrl: "https://assets.mixkit.co/active_storage/sfx/2515/2515.mp3",
     },
     {
       id: "fire",
       name: "Костер",
       icon: "🔥",
       url: "/sounds/fire.mp3",
-      fallbackUrl: "https://www.soundjay.com/misc/sounds-765.wav",
+      fallbackUrl: "https://assets.mixkit.co/active_storage/sfx/555/555.mp3",
     },
     {
       id: "rain",
       name: "Дождь",
       icon: "🌧️",
       url: "/sounds/rain.mp3",
-      fallbackUrl: "https://www.soundjay.com/misc/sounds-765.wav",
+      fallbackUrl: "https://assets.mixkit.co/active_storage/sfx/149/149.mp3",
     },
   ]
 
+  // Инициализация аудио элемента только один раз при монтировании компонента
   useEffect(() => {
-    // Create audio element
-    audioRef.current = new Audio()
-    // Обязательно зацикливаем звук
-    audioRef.current.loop = true
-    audioRef.current.volume = volume[0]
-
-    // Добавляем обработчик события окончания воспроизведения как дополнительную гарантию зацикливания
+    // Создаем аудио элемент
+    const audio = new Audio();
+    
+    // Обработчик для событий
+    const handleCanPlayThrough = () => {
+      setIsLoaded(true);
+    };
+    
+    const handleError = (e: Event) => {
+      console.error("Ошибка загрузки аудио:", e);
+      setError("Ошибка загрузки звука");
+      setIsPlaying(false);
+    };
+    
     const handleEnded = () => {
-      if (audioRef.current && isPlaying) {
-        audioRef.current.currentTime = 0
-        audioRef.current.play().catch(err => console.log("Автовоспроизведение предотвращено:", err))
+      // Дополнительная проверка для зацикливания
+      if (audio && isPlaying) {
+        audio.currentTime = 0;
+        audio.play().catch(err => {
+          console.log("Ошибка автовоспроизведения:", err);
+          setError("Не удалось воспроизвести звук");
+          setIsPlaying(false);
+        });
       }
-    }
+    };
+    
+    // Настройка аудио
+    audio.preload = "auto";
+    audio.loop = true;
+    audio.volume = volume[0];
+    
+    // Добавляем обработчики событий
+    audio.addEventListener('canplaythrough', handleCanPlayThrough);
+    audio.addEventListener('error', handleError);
+    audio.addEventListener('ended', handleEnded);
+    
+    // Сохраняем ссылку на аудио элемент
+    audioRef.current = audio;
+    
+    // Очистка при размонтировании
+    return () => {
+      if (audio) {
+        audio.pause();
+        audio.removeEventListener('canplaythrough', handleCanPlayThrough);
+        audio.removeEventListener('error', handleError);
+        audio.removeEventListener('ended', handleEnded);
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
+  // Обновление громкости при изменении значения слайдера
+  useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.addEventListener('ended', handleEnded)
+      audioRef.current.volume = volume[0];
     }
+  }, [volume]);
+
+  // Обработка взаимодействия с пользователем для мобильных устройств
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      // Предзагрузка звука при первом взаимодействии пользователя
+      if (audioRef.current && !audioRef.current.src) {
+        const sound = sounds.find((s) => s.id === currentSound);
+        if (sound) {
+          audioRef.current.src = sound.url;
+          audioRef.current.load();
+        }
+      }
+    };
+
+    // Добавляем обработчики для первого взаимодействия
+    document.addEventListener('click', handleUserInteraction, { once: true });
+    document.addEventListener('touchstart', handleUserInteraction, { once: true });
 
     return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener('ended', handleEnded)
-        audioRef.current.pause()
-        audioRef.current = null
-      }
-    }
-  }, [isPlaying])
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume[0]
-    }
-  }, [volume])
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+    };
+  }, [currentSound]);
 
   const togglePlay = async () => {
-    if (!audioRef.current) return
+    if (!audioRef.current) return;
+    setError(null);
 
     if (isPlaying) {
-      audioRef.current.pause()
-      setIsPlaying(false)
+      audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      const sound = sounds.find((s) => s.id === currentSound)
-      if (sound) {
-        audioRef.current.src = sound.url
-        // Гарантируем, что звук зациклен
-        audioRef.current.loop = true
-
+      const sound = sounds.find((s) => s.id === currentSound);
+      if (sound && audioRef.current) {
+        // Проверяем, нужно ли менять источник
+        if (!audioRef.current.src.includes(currentSound)) {
+          audioRef.current.src = sound.url;
+          audioRef.current.load();
+        }
+        
         try {
-          await audioRef.current.play()
-          setIsPlaying(true)
-        } catch (error) {
-          console.log("Local file not found, using fallback")
-          audioRef.current.src = sound.fallbackUrl
-          // Гарантируем, что звук зациклен и для резервного источника
-          audioRef.current.loop = true
-          try {
-            await audioRef.current.play()
-            setIsPlaying(true)
-          } catch (fallbackError) {
-            console.log("Autoplay prevented or file not found")
+          setIsLoaded(false);
+          const playPromise = audioRef.current.play();
+          
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                setIsPlaying(true);
+              })
+              .catch((error) => {
+                console.log("Ошибка воспроизведения, используем запасной источник:", error);
+                
+                // Пробуем запасной источник
+                if (audioRef.current) {
+                  audioRef.current.src = sound.fallbackUrl;
+                  audioRef.current.load();
+                  
+                  audioRef.current.play()
+                    .then(() => {
+                      setIsPlaying(true);
+                    })
+                    .catch((fallbackError) => {
+                      console.log("Ошибка воспроизведения запасного источника:", fallbackError);
+                      setError("Не удалось воспроизвести звук. Разрешите автовоспроизведение в настройках браузера.");
+                      setIsPlaying(false);
+                    });
+                }
+              });
           }
+        } catch (error) {
+          console.log("Общая ошибка воспроизведения:", error);
+          setError("Ошибка воспроизведения");
+          setIsPlaying(false);
         }
       }
     }
-  }
+  };
 
   const changeSound = async (soundId: string) => {
-    setCurrentSound(soundId)
-    if (audioRef.current && isPlaying) {
-      const sound = sounds.find((s) => s.id === soundId)
-      if (sound) {
-        audioRef.current.src = sound.url
-        // Гарантируем, что звук зациклен при смене трека
-        audioRef.current.loop = true
-        try {
-          await audioRef.current.play()
-        } catch (error) {
-          audioRef.current.src = sound.fallbackUrl
-          // Гарантируем, что звук зациклен и для резервного источника
-          audioRef.current.loop = true
-          try {
-            await audioRef.current.play()
-          } catch (fallbackError) {
-            console.log("Sound change prevented")
-          }
+    setCurrentSound(soundId);
+    setError(null);
+    
+    const sound = sounds.find((s) => s.id === soundId);
+    if (!sound || !audioRef.current) return;
+    
+    // Всегда меняем источник при смене звука
+    audioRef.current.src = sound.url;
+    audioRef.current.load();
+    
+    if (isPlaying) {
+      try {
+        setIsLoaded(false);
+        const playPromise = audioRef.current.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.log("Ошибка при смене звука, используем запасной источник:", error);
+            
+            if (audioRef.current) {
+              audioRef.current.src = sound.fallbackUrl;
+              audioRef.current.load();
+              
+              audioRef.current.play().catch((fallbackError) => {
+                console.log("Ошибка воспроизведения запасного источника:", fallbackError);
+                setError("Не удалось воспроизвести звук");
+                setIsPlaying(false);
+              });
+            }
+          });
         }
+      } catch (error) {
+        console.log("Общая ошибка при смене звука:", error);
+        setIsPlaying(false);
       }
     }
-  }
+  };
 
-  const currentSoundData = sounds.find((s) => s.id === currentSound)
+  const currentSoundData = sounds.find((s) => s.id === currentSound);
 
   return (
     <div className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 ${className}`}>
@@ -173,6 +261,9 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
                     <div className="w-0.5 h-3 sm:w-1 sm:h-4 bg-forest-400 rounded-full animate-pulse animation-delay-400"></div>
                   </div>
                 )}
+                {!isPlaying && isLoaded && error && (
+                  <span className="text-red-400 text-xs">!</span>
+                )}
               </div>
             </div>
 
@@ -200,6 +291,12 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
                 </Button>
               ))}
             </div>
+            
+            {error && (
+              <div className="mt-2 text-xs text-red-400 text-center">
+                {error}
+              </div>
+            )}
           </div>
         </div>
 
