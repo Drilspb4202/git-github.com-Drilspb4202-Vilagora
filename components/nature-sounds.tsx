@@ -49,183 +49,183 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
     },
   ]
 
+  const currentSoundRef = useRef(currentSound)
+  useEffect(() => {
+    currentSoundRef.current = currentSound
+  }, [currentSound])
+
   // Инициализация аудио элемента только один раз при монтировании компонента
   useEffect(() => {
     // Создаем аудио элемент
-    const audio = new Audio();
-    
+    const audio = new Audio()
+
     // Обработчик для событий
     const handleCanPlayThrough = () => {
-      setIsLoaded(true);
-    };
-    
-    const handleError = (e: Event) => {
-      console.error("Ошибка загрузки аудио:", e);
-      setError("Ошибка загрузки звука");
-      setIsPlaying(false);
-    };
-    
+      setIsLoaded(true)
+    }
+
+    const handleError = () => {
+      const sound = sounds.find((s) => s.id === currentSoundRef.current)
+      if (!sound || !audio) return
+
+      // If we’re already on the fallback source, surface an error and stop playback
+      if (audio.src.includes(sound.fallbackUrl)) {
+        console.error("Не удалось воспроизвести fallback-файл")
+        setError("Ошибка загрузки звука")
+        setIsPlaying(false)
+        return
+      }
+
+      // Otherwise, try the fallback URL
+      console.warn("Основной файл не загрузился — пробуем fallback…")
+      setIsLoaded(false)
+      audio.src = sound.fallbackUrl
+      audio.load()
+      audio
+        .play()
+        .then(() => {
+          setIsPlaying(true)
+        })
+        .catch((e) => {
+          console.error("Ошибка воспроизведения fallback-файла:", e)
+          setError("Не удалось воспроизвести звук")
+          setIsPlaying(false)
+        })
+    }
+
     const handleEnded = () => {
       // Дополнительная проверка для зацикливания
       if (audio && isPlaying) {
-        audio.currentTime = 0;
-        audio.play().catch(err => {
-          console.log("Ошибка автовоспроизведения:", err);
-          setError("Не удалось воспроизвести звук");
-          setIsPlaying(false);
-        });
+        audio.currentTime = 0
+        audio.play().catch((err) => {
+          console.log("Ошибка автовоспроизведения:", err)
+          setError("Не удалось воспроизвести звук")
+          setIsPlaying(false)
+        })
       }
-    };
-    
+    }
+
     // Настройка аудио
-    audio.preload = "auto";
-    audio.loop = true;
-    audio.volume = volume[0];
-    
+    audio.crossOrigin = "anonymous"
+    audio.preload = "auto"
+    audio.loop = true
+    audio.volume = volume[0]
+
     // Добавляем обработчики событий
-    audio.addEventListener('canplaythrough', handleCanPlayThrough);
-    audio.addEventListener('error', handleError);
-    audio.addEventListener('ended', handleEnded);
-    
+    audio.addEventListener("canplaythrough", handleCanPlayThrough)
+    audio.addEventListener("error", handleError)
+    audio.addEventListener("ended", handleEnded)
+
     // Сохраняем ссылку на аудио элемент
-    audioRef.current = audio;
-    
+    audioRef.current = audio
+
     // Очистка при размонтировании
     return () => {
       if (audio) {
-        audio.pause();
-        audio.removeEventListener('canplaythrough', handleCanPlayThrough);
-        audio.removeEventListener('error', handleError);
-        audio.removeEventListener('ended', handleEnded);
-        audioRef.current = null;
+        audio.pause()
+        audio.removeEventListener("canplaythrough", handleCanPlayThrough)
+        audio.removeEventListener("error", handleError)
+        audio.removeEventListener("ended", handleEnded)
+        audioRef.current = null
       }
-    };
-  }, []);
+    }
+  }, [])
 
   // Обновление громкости при изменении значения слайдера
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = volume[0];
+      audioRef.current.volume = volume[0]
     }
-  }, [volume]);
+  }, [volume])
 
   // Обработка взаимодействия с пользователем для мобильных устройств
   useEffect(() => {
     const handleUserInteraction = () => {
       // Предзагрузка звука при первом взаимодействии пользователя
       if (audioRef.current && !audioRef.current.src) {
-        const sound = sounds.find((s) => s.id === currentSound);
+        const sound = sounds.find((s) => s.id === currentSound)
         if (sound) {
-          audioRef.current.src = sound.url;
-          audioRef.current.load();
+          audioRef.current.src = sound.url
+          audioRef.current.load()
         }
       }
-    };
+    }
 
     // Добавляем обработчики для первого взаимодействия
-    document.addEventListener('click', handleUserInteraction, { once: true });
-    document.addEventListener('touchstart', handleUserInteraction, { once: true });
+    document.addEventListener("click", handleUserInteraction, { once: true })
+    document.addEventListener("touchstart", handleUserInteraction, { once: true })
 
     return () => {
-      document.removeEventListener('click', handleUserInteraction);
-      document.removeEventListener('touchstart', handleUserInteraction);
-    };
-  }, [currentSound]);
+      document.removeEventListener("click", handleUserInteraction)
+      document.removeEventListener("touchstart", handleUserInteraction)
+    }
+  }, [currentSound])
 
   const togglePlay = async () => {
-    if (!audioRef.current) return;
-    setError(null);
+    if (!audioRef.current) return
+    setError(null)
 
     if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
+      audioRef.current.pause()
+      setIsPlaying(false)
     } else {
-      const sound = sounds.find((s) => s.id === currentSound);
+      const sound = sounds.find((s) => s.id === currentSound)
       if (sound && audioRef.current) {
         // Проверяем, нужно ли менять источник
         if (!audioRef.current.src.includes(currentSound)) {
-          audioRef.current.src = sound.url;
-          audioRef.current.load();
+          audioRef.current.src = sound.url
+          audioRef.current.load()
         }
-        
+
         try {
-          setIsLoaded(false);
-          const playPromise = audioRef.current.play();
-          
+          setIsLoaded(false)
+          const playPromise = audioRef.current.play()
+
           if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                setIsPlaying(true);
-              })
-              .catch((error) => {
-                console.log("Ошибка воспроизведения, используем запасной источник:", error);
-                
-                // Пробуем запасной источник
-                if (audioRef.current) {
-                  audioRef.current.src = sound.fallbackUrl;
-                  audioRef.current.load();
-                  
-                  audioRef.current.play()
-                    .then(() => {
-                      setIsPlaying(true);
-                    })
-                    .catch((fallbackError) => {
-                      console.log("Ошибка воспроизведения запасного источника:", fallbackError);
-                      setError("Не удалось воспроизвести звук. Разрешите автовоспроизведение в настройках браузера.");
-                      setIsPlaying(false);
-                    });
-                }
-              });
+            playPromise.catch((e) => {
+              console.error("Ошибка воспроизведения:", e)
+              // handleError will take care of switching source
+            })
           }
         } catch (error) {
-          console.log("Общая ошибка воспроизведения:", error);
-          setError("Ошибка воспроизведения");
-          setIsPlaying(false);
+          console.log("Общая ошибка воспроизведения:", error)
+          setError("Ошибка воспроизведения")
+          setIsPlaying(false)
         }
       }
     }
-  };
+  }
 
   const changeSound = async (soundId: string) => {
-    setCurrentSound(soundId);
-    setError(null);
-    
-    const sound = sounds.find((s) => s.id === soundId);
-    if (!sound || !audioRef.current) return;
-    
+    setCurrentSound(soundId)
+    setError(null)
+
+    const sound = sounds.find((s) => s.id === soundId)
+    if (!sound || !audioRef.current) return
+
     // Всегда меняем источник при смене звука
-    audioRef.current.src = sound.url;
-    audioRef.current.load();
-    
+    audioRef.current.src = sound.url
+    audioRef.current.load()
+
     if (isPlaying) {
       try {
-        setIsLoaded(false);
-        const playPromise = audioRef.current.play();
-        
+        setIsLoaded(false)
+        const playPromise = audioRef.current.play()
+
         if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.log("Ошибка при смене звука, используем запасной источник:", error);
-            
-            if (audioRef.current) {
-              audioRef.current.src = sound.fallbackUrl;
-              audioRef.current.load();
-              
-              audioRef.current.play().catch((fallbackError) => {
-                console.log("Ошибка воспроизведения запасного источника:", fallbackError);
-                setError("Не удалось воспроизвести звук");
-                setIsPlaying(false);
-              });
-            }
-          });
+          playPromise.catch((e) => {
+            console.error("Ошибка воспроизведения:", e)
+            // handleError will take care of switching source
+          })
         }
       } catch (error) {
-        console.log("Общая ошибка при смене звука:", error);
-        setIsPlaying(false);
+        console.log("Общая ошибка при смене звука:", error)
+        setIsPlaying(false)
       }
     }
-  };
+  }
 
-  const currentSoundData = sounds.find((s) => s.id === currentSound);
+  const currentSoundData = sounds.find((s) => s.id === currentSound)
 
   return (
     <div className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 ${className}`}>
@@ -261,9 +261,7 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
                     <div className="w-0.5 h-3 sm:w-1 sm:h-4 bg-forest-400 rounded-full animate-pulse animation-delay-400"></div>
                   </div>
                 )}
-                {!isPlaying && isLoaded && error && (
-                  <span className="text-red-400 text-xs">!</span>
-                )}
+                {!isPlaying && isLoaded && error && <span className="text-red-400 text-xs">!</span>}
               </div>
             </div>
 
@@ -291,12 +289,8 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
                 </Button>
               ))}
             </div>
-            
-            {error && (
-              <div className="mt-2 text-xs text-red-400 text-center">
-                {error}
-              </div>
-            )}
+
+            {error && <div className="mt-2 text-xs text-red-400 text-center">{error}</div>}
           </div>
         </div>
 
