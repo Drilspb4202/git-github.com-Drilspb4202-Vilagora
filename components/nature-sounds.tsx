@@ -50,16 +50,30 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
   useEffect(() => {
     // Create audio element
     audioRef.current = new Audio()
+    // Обязательно зацикливаем звук
     audioRef.current.loop = true
     audioRef.current.volume = volume[0]
 
+    // Добавляем обработчик события окончания воспроизведения как дополнительную гарантию зацикливания
+    const handleEnded = () => {
+      if (audioRef.current && isPlaying) {
+        audioRef.current.currentTime = 0
+        audioRef.current.play().catch(err => console.log("Автовоспроизведение предотвращено:", err))
+      }
+    }
+
+    if (audioRef.current) {
+      audioRef.current.addEventListener('ended', handleEnded)
+    }
+
     return () => {
       if (audioRef.current) {
+        audioRef.current.removeEventListener('ended', handleEnded)
         audioRef.current.pause()
         audioRef.current = null
       }
     }
-  }, [])
+  }, [isPlaying])
 
   useEffect(() => {
     if (audioRef.current) {
@@ -77,6 +91,8 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
       const sound = sounds.find((s) => s.id === currentSound)
       if (sound) {
         audioRef.current.src = sound.url
+        // Гарантируем, что звук зациклен
+        audioRef.current.loop = true
 
         try {
           await audioRef.current.play()
@@ -84,6 +100,8 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
         } catch (error) {
           console.log("Local file not found, using fallback")
           audioRef.current.src = sound.fallbackUrl
+          // Гарантируем, что звук зациклен и для резервного источника
+          audioRef.current.loop = true
           try {
             await audioRef.current.play()
             setIsPlaying(true)
@@ -101,10 +119,14 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
       const sound = sounds.find((s) => s.id === soundId)
       if (sound) {
         audioRef.current.src = sound.url
+        // Гарантируем, что звук зациклен при смене трека
+        audioRef.current.loop = true
         try {
           await audioRef.current.play()
         } catch (error) {
           audioRef.current.src = sound.fallbackUrl
+          // Гарантируем, что звук зациклен и для резервного источника
+          audioRef.current.loop = true
           try {
             await audioRef.current.play()
           } catch (fallbackError) {
@@ -182,7 +204,7 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
             {/* Instructions for adding sounds */}
             <div className="mt-2 sm:mt-3 p-2 bg-forest-800/30 rounded-lg border border-forest-700/20">
               <p className="text-xs text-forest-400 text-center">
-                Добавьте файлы в папку <code className="bg-forest-700/50 px-1 rounded text-xs">public/sounds/</code>
+                Добавьте MP3 файлы в папку <code className="bg-forest-700/50 px-1 rounded text-xs">public/sounds/</code>
               </p>
             </div>
           </div>
