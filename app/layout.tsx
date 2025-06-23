@@ -50,6 +50,10 @@ export default function RootLayout({
     <html lang="ru" suppressHydrationWarning>
       <head>
         <link rel="canonical" href="https://www.villagora.ru" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon-192x192.png" />
+        <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
         <ThemeProvider 
