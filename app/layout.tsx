@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Ретрит в Карелии | Отдых на природе в Виллагоре | Экотуризм',
   description: 'Уникальный ретрит в Карелии с проживанием в Виллагоре. Отдых на природе, баня на дровах, чистейшее озеро Сямозеро, карельская кухня, экотуры и восстановление душевных сил.',
   generator: 'NextJS',
-  applicationName: 'Карельский ретрит в Виллагоре',
+  applicationName: 'Ретрит Карелия',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'ретрит в Карелии', 'отдых в Карелии', 'Виллагора', 'Сямозеро', 'карельская природа', 
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Ретрит в Карелии | Уникальный отдых на природе в деревне Виллагора',
-    description: 'Погрузитесь в карельскую природу: чистейшие озера, лес, баня, карельская кухня и уютный дом. Идеальное место для перезагрузки и отдыха от городской суеты.',
+    title: 'Ретрит Карелия',
+    description: 'Камерный ретрит в Виллагоре. Перезагрузка души в окружении хвойных лесов Карелии. Уникальный отдых на природе с баней, озером и эко-турами.',
     siteName: 'Ретрит Карелия',
     images: [{
       url: '/images/hero/hero.jpg',
@@ -43,10 +43,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ретрит в Карелии | Отдых на природе в Виллагоре',
-    description: 'Уникальный отдых в Карелии с проживанием в деревне Виллагора. Перезагрузка души в окружении хвойных лесов.',
+    title: 'Ретрит Карелия',
+    description: 'Камерный ретрит в Виллагоре. Перезагрузка души в окружении хвойных лесов Карелии.',
     images: ['/images/hero/hero.jpg'],
     creator: '@RadmilaYakovleva',
+  },
+  alternates: {
+    canonical: 'https://www.villagora.ru',
   },
 }
 
@@ -64,14 +67,22 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon-192x192.png" />
         <link rel="manifest" href="/manifest.json" />
         
+        {/* Ссылки на превью страницы для мессенджеров */}
+        <link rel="alternate" href="https://www.villagora.ru/preview" />
+        <link rel="alternate" href="https://www.villagora.ru/share" />
+        <link rel="alternate" href="https://www.villagora.ru/index-preview" />
+        
         {/* Дополнительные мета-теги для корректного отображения при поделении ссылкой */}
-        <meta property="og:title" content="Ретрит в Карелии | Отдых на природе в Виллагоре" />
-        <meta property="og:description" content="Уникальный ретрит с проживанием в Карелии. Перезагрузка души в окружении хвойных лесов, озёр и природы." />
+        <meta property="og:title" content="Ретрит Карелия" />
+        <meta property="og:description" content="Камерный ретрит в Виллагоре. Перезагрузка души в окружении хвойных лесов Карелии. Уникальный отдых на природе с баней, озером и эко-турами." />
         <meta property="og:image" content="https://www.villagora.ru/images/hero/hero.jpg" />
         <meta property="og:url" content="https://www.villagora.ru" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Ретрит Карелия" />
         <meta name="twitter:card" content="summary_large_image" />
+        
+        {/* Метатеги для Телеграма */}
+        <meta name="application-name" content="Ретрит Карелия" />
       </head>
       <body>
         <ThemeProvider 
