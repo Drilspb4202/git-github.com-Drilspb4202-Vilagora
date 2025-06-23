@@ -30,14 +30,23 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Ретрит в Карелии | Уникальный отдых на природе в деревне Виллагора',
     description: 'Погрузитесь в карельскую природу: чистейшие озера, лес, баня, карельская кухня и уютный дом. Идеальное место для перезагрузки и отдыха от городской суеты.',
+    siteName: 'Ретрит Карелия',
     images: [{
-      url: '/public/images/hero/hero.jpg',
+      url: '/images/hero/hero.jpg',
       width: 1200,
       height: 630,
       alt: 'Ретрит в Карелии',
     }],
     locale: 'ru_RU',
     type: 'website',
+    url: 'https://www.villagora.ru',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ретрит в Карелии | Отдых на природе в Виллагоре',
+    description: 'Уникальный отдых в Карелии с проживанием в деревне Виллагора. Перезагрузка души в окружении хвойных лесов.',
+    images: ['/images/hero/hero.jpg'],
+    creator: '@RadmilaYakovleva',
   },
 }
 
@@ -54,6 +63,15 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/favicon-192x192.png" />
         <link rel="manifest" href="/manifest.json" />
+        
+        {/* Дополнительные мета-теги для корректного отображения при поделении ссылкой */}
+        <meta property="og:title" content="Ретрит в Карелии | Отдых на природе в Виллагоре" />
+        <meta property="og:description" content="Уникальный ретрит с проживанием в Карелии. Перезагрузка души в окружении хвойных лесов, озёр и природы." />
+        <meta property="og:image" content="https://www.villagora.ru/images/hero/hero.jpg" />
+        <meta property="og:url" content="https://www.villagora.ru" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Ретрит Карелия" />
+        <meta name="twitter:card" content="summary_large_image" />
       </head>
       <body>
         <ThemeProvider 
