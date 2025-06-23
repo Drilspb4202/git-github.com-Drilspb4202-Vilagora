@@ -670,7 +670,7 @@ export default function KareliaRetreatLanding() {
         <div className="absolute inset-0 bg-gradient-to-r from-forest-900/20 via-forest-800/20 to-forest-900/30"></div>
         <div className="max-w-5xl mx-auto relative z-10">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 sm:mb-10 text-stone-100 text-center">
-            Часто задаваемые вопрос
+            Часто задаваемые вопросы
           </h2>
           <p className="text-lg sm:text-xl mb-10 sm:mb-12 text-stone-300 leading-relaxed max-w-4xl mx-auto px-4 text-center">
             Всё, что вам нужно знать о нашем ретрите в Карелии перед бронированием
