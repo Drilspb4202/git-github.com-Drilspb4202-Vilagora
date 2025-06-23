@@ -50,9 +50,11 @@ import { OptimizedImage } from "@/components/optimized-image"
 import { LoadingProgress } from "@/components/loading-progress"
 import { NatureSounds } from "@/components/nature-sounds"
 import { AnimatedNature } from "@/components/animated-nature"
+import { FAQSection } from "@/components/faq-section"
 
 // Импорты удалены
 
+// Страница с SEO-оптимизацией для ретрита в Карелии
 export default function KareliaRetreatLanding() {
   const [isVisible, setIsVisible] = useState(false)
   const [activePackage, setActivePackage] = useState(1)
@@ -294,12 +296,15 @@ export default function KareliaRetreatLanding() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 text-center overflow-hidden">
+      <section 
+        className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 text-center overflow-hidden"
+        itemScope 
+        itemType="https://schema.org/TouristAttraction">
         {/* Optimized Background with Next.js Image */}
         <div className="absolute inset-0">
           <NextImage
             src="/images/hero/hero.jpg"
-            alt="Карельская природа - фон"
+            alt="Карельская природа, ретрит в Виллагоре, озеро Сямозеро, отдых на природе"
             fill
             priority
             quality={85}
@@ -307,6 +312,7 @@ export default function KareliaRetreatLanding() {
             sizes="100vw"
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+            itemProp="image"
           />
 
           {/* Gradient overlays */}
@@ -322,7 +328,7 @@ export default function KareliaRetreatLanding() {
             <TreePine className="h-12 w-12 sm:h-16 sm:w-16 text-forest-300 mx-auto mb-4 sm:mb-6 animate-breathe drop-shadow-lg" />
           </div>
 
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 sm:mb-8 leading-tight px-2">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 sm:mb-8 leading-tight px-2" itemProp="name">
             <span className="bg-gradient-to-r from-forest-200 via-forest-300 to-amber-300 bg-clip-text text-transparent animate-pulse drop-shadow-2xl">
               Камерный ретрит
             </span>
@@ -330,9 +336,16 @@ export default function KareliaRetreatLanding() {
             <span className="text-white drop-shadow-2xl">в сердце Карелии</span>
           </h1>
 
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 text-stone-100 font-light max-w-4xl mx-auto leading-relaxed drop-shadow-lg px-4">
-            Перезагрузка души в окружении хвойных лесов
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 text-stone-100 font-light max-w-4xl mx-auto leading-relaxed drop-shadow-lg px-4" itemProp="description">
+            Перезагрузка души в окружении хвойных лесов, отдых на природе Карелии
           </p>
+          
+          <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress" className="hidden">
+            <span itemProp="addressLocality">Виллагора</span>,
+            <span itemProp="addressRegion">Республика Карелия</span>,
+            <span itemProp="postalCode">186135</span>,
+            <span itemProp="addressCountry">Россия</span>
+          </div>
 
           <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8 sm:mb-12 px-4">
             <Badge
@@ -380,7 +393,7 @@ export default function KareliaRetreatLanding() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative">
+      <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative" itemScope itemType="https://schema.org/Resort">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-stone-100 to-stone-300 bg-clip-text text-transparent">
@@ -431,11 +444,14 @@ export default function KareliaRetreatLanding() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative" itemScope itemType="https://schema.org/Hotel">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-12 sm:mb-16 bg-gradient-to-r from-stone-100 to-stone-300 bg-clip-text text-transparent">
             Что тебя ждёт
           </h2>
+          <meta itemProp="name" content="Ретрит в Карелии - Виллагора" />
+          <meta itemProp="description" content="Уникальный ретрит на природе в Карелии с экскурсиями, баней и отдыхом на озере Сямозеро" />
+          <meta itemProp="telephone" content="+78952201078" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {features.map((feature, index) => (
@@ -649,6 +665,23 @@ export default function KareliaRetreatLanding() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-forest-900/20 via-forest-800/20 to-forest-900/30"></div>
+        <div className="max-w-5xl mx-auto relative z-10">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 sm:mb-10 text-stone-100 text-center">
+            Часто задаваемые вопросы
+          </h2>
+          <p className="text-lg sm:text-xl mb-10 sm:mb-12 text-stone-300 leading-relaxed max-w-4xl mx-auto px-4 text-center">
+            Всё, что вам нужно знать о нашем ретрите в Карелии перед бронированием
+          </p>
+          
+          <div className="bg-forest-950/30 backdrop-blur-sm border border-forest-700/20 rounded-3xl p-6 sm:p-8">
+            <FAQSection />
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-forest-800/30 via-forest-700/20 to-forest-600/30"></div>
@@ -662,7 +695,10 @@ export default function KareliaRetreatLanding() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
-            <Card className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl">
+            <Card 
+              className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl cursor-pointer"
+              onClick={() => window.open('tel:89522010778')}
+            >
               <CardHeader>
                 <div className="flex items-center justify-center mb-4 sm:mb-6">
                   <div className="bg-gradient-to-r from-forest-500 to-forest-600 w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-300 group-hover:rotate-12">
@@ -677,7 +713,10 @@ export default function KareliaRetreatLanding() {
               </CardContent>
             </Card>
 
-            <Card className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl">
+            <Card 
+              className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl cursor-pointer"
+              onClick={() => window.open('https://t.me/RadmilaYakovleva')}
+            >
               <CardHeader>
                 <div className="flex items-center justify-center mb-4 sm:mb-6">
                   <div className="bg-gradient-to-r from-amber-600 to-amber-700 w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-300 group-hover:rotate-12">
@@ -687,7 +726,7 @@ export default function KareliaRetreatLanding() {
                 <CardTitle className="text-xl sm:text-2xl text-stone-100">Напиши в Telegram</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-xl sm:text-2xl font-bold text-amber-400 mb-2">@username</p>
+                <p className="text-xl sm:text-2xl font-bold text-amber-400 mb-2">@RadmilaYakovleva</p>
                 <p className="text-stone-300 text-sm sm:text-base">Быстрые ответы в чате</p>
               </CardContent>
             </Card>
@@ -697,6 +736,7 @@ export default function KareliaRetreatLanding() {
             <Button
               size="lg"
               className="bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white text-lg sm:text-xl px-8 sm:px-12 py-3 sm:py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0 w-full sm:w-auto"
+              onClick={() => window.open('tel:89522010778')}
             >
               <Phone className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
               Позвонить сейчас
@@ -705,6 +745,7 @@ export default function KareliaRetreatLanding() {
             <Button
               size="lg"
               className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white text-lg sm:text-xl px-8 sm:px-12 py-3 sm:py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0 w-full sm:w-auto"
+              onClick={() => window.open('https://t.me/RadmilaYakovleva')}
             >
               <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
               Написать в Telegram
