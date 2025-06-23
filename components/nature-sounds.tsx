@@ -200,13 +200,6 @@ export function NatureSounds({ className = "" }: NatureSoundsProps) {
                 </Button>
               ))}
             </div>
-
-            {/* Instructions for adding sounds */}
-            <div className="mt-2 sm:mt-3 p-2 bg-forest-800/30 rounded-lg border border-forest-700/20">
-              <p className="text-xs text-forest-400 text-center">
-                Добавьте MP3 файлы в папку <code className="bg-forest-700/50 px-1 rounded text-xs">public/sounds/</code>
-              </p>
-            </div>
           </div>
         </div>
 
