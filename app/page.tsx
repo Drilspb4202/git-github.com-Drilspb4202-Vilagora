@@ -353,7 +353,7 @@ export default function KareliaRetreatLanding() {
               onClick={() => setIsMapOpen(true)}
             >
               <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-              <span className="hidden sm:inline">Деревня     </span>Виллагора
+              <span className="hidden sm:inline">Деревня                        </span>Виллагора
             </Badge>
             <Badge className="text-sm sm:text-lg py-2 px-4 sm:py-3 sm:px-6 bg-black/30 backdrop-blur-md border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105 text-white shadow-xl">
               <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
