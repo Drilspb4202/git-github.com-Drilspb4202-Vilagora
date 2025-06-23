@@ -399,7 +399,7 @@ export default function KareliaRetreatLanding() {
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-stone-100 to-stone-300 bg-clip-text text-transparent">
               Время услышать себя
             </h2>
-            <p className="text-lg sm:text-xl text-stone-300 mb-8 sm:mb-12 leading-relaxed max-w-4xl mx-auto px-4">
+            <p className="text-lg sm:text-xl mb-8 sm:mb-12 leading-relaxed max-w-4xl mx-auto px-4 text-white">
               Ты чувствуешь, что пора перезагрузиться? Отпустить суету и, наконец, услышать себя? Приглашаю тебя на КАМЕРНЫЙ РЕТРИТ В ЗАГОРОДНЫЙ ДОМ ВИЛЛАГОРЕ - живописной деревне на берегу ламбушки, в окружении карельских лесов и озёр.
             </p>
           </div>
