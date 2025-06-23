@@ -337,7 +337,7 @@ export default function KareliaRetreatLanding() {
           </h1>
 
           <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 text-stone-100 font-light max-w-4xl mx-auto leading-relaxed drop-shadow-lg px-4" itemProp="description">
-            Перезагрузка души в окружении хвойных лесов, отдых на природе Карелии
+            Перезагрузка души в окружении леса, насыщенный отдых на природе Карелии
           </p>
           
           <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress" className="hidden">
@@ -353,7 +353,7 @@ export default function KareliaRetreatLanding() {
               onClick={() => setIsMapOpen(true)}
             >
               <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-              <span className="hidden sm:inline">Деревня </span>Виллагора
+              <span className="hidden sm:inline">Деревня     </span>Виллагора
             </Badge>
             <Badge className="text-sm sm:text-lg py-2 px-4 sm:py-3 sm:px-6 bg-black/30 backdrop-blur-md border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105 text-white shadow-xl">
               <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
