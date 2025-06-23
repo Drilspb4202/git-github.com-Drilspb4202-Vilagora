@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://www.villagora.ru/sitemap.xml 
+Sitemap: https://www.villagora.ru/sitemap.xml

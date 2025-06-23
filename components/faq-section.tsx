@@ -127,4 +127,4 @@ export function FAQSection() {
       </Accordion>
     </div>
   )
-} 
+}

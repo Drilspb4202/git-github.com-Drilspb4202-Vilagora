@@ -14,4 +14,4 @@ export async function GET() {
     version,
     previewUrl: `https://www.villagora.ru/telegram-preview.html?v=${version}`
   });
-} 
+}

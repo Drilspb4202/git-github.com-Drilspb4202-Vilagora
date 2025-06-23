@@ -19,4 +19,4 @@ export default function Head() {
       <meta property="og:site_name" content="Ретрит Карелия" />
     </>
   );
-} 
+}

@@ -22,4 +22,4 @@ export const v0Config = {
 };
 
 // Экспортировать дефолтные настройки
-export default siteConfig; 
+export default siteConfig;
