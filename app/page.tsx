@@ -241,6 +241,51 @@ export default function KareliaRetreatLanding() {
       fullDescription:
         "Традиционная русская баня на дровах с панорамными окнами и выходом к озеру. Вечерние банные процедуры под звездным небом, ароматные веники из березы и дуба, возможность окунуться в прохладное озеро после парной.",
     },
+    {
+      id: "transfer",
+      icon: <CreditCard className="h-6 w-6 sm:h-8 sm:w-8" />,
+      title: "Трансфер",
+      description: "Комфортная доставка от вокзала до места отдыха",
+      color: "from-blue-500 to-blue-700",
+      images: [
+        "/placeholder.svg?height=600&width=800&text=Трансфер+1",
+        "/placeholder.svg?height=600&width=800&text=Трансфер+2",
+        "/placeholder.svg?height=600&width=800&text=Трансфер+3",
+        "/placeholder.svg?height=600&width=800&text=Трансфер+4",
+      ],
+      fullDescription:
+        "Организуем комфортный трансфер от железнодорожного вокзала или аэропорта до места проведения ретрита. Современный транспорт, опытные водители, возможность остановок по пути для покупки необходимых вещей.",
+    },
+    {
+      id: "karaoke",
+      icon: <MessageCircle className="h-6 w-6 sm:h-8 sm:w-8" />,
+      title: "Караоке",
+      description: "Вечерние развлечения и музыкальные посиделки",
+      color: "from-purple-500 to-purple-700",
+      images: [
+        "/placeholder.svg?height=600&width=800&text=Караоке+1",
+        "/placeholder.svg?height=600&width=800&text=Караоке+2",
+        "/placeholder.svg?height=600&width=800&text=Караоке+3",
+        "/placeholder.svg?height=600&width=800&text=Караоке+4",
+      ],
+      fullDescription:
+        "Современная караоке-система для вечерних развлечений. Большая коллекция песен на русском и английском языках, качественное звуковое оборудование, возможность записи выступлений на память.",
+    },
+    {
+      id: "hospitality",
+      icon: <Heart className="h-6 w-6 sm:h-8 sm:w-8" />,
+      title: "Гостеприимство",
+      description: "Индивидуальный подход и забота о каждом госте",
+      color: "from-pink-500 to-pink-700",
+      images: [
+        "/placeholder.svg?height=600&width=800&text=Гостеприимство+1",
+        "/placeholder.svg?height=600&width=800&text=Гостеприимство+2",
+        "/placeholder.svg?height=600&width=800&text=Гостеприимство+3",
+        "/placeholder.svg?height=600&width=800&text=Гостеприимство+4",
+      ],
+      fullDescription:
+        "Наша команда обеспечивает высочайший уровень сервиса и индивидуальный подход к каждому гостю. Мы учитываем все ваши пожелания и потребности, создавая атмосферу домашнего уюта и заботы.",
+    },
   ]
 
   const handleBookingSubmit = (e: React.FormEvent) => {
