@@ -1,0 +1,21 @@
+{
+  "name": "Ретрит в Карелии - Виллагора",
+  "short_name": "Виллагора",
+  "description": "Уникальный ретрит в Карелии с проживанием в Виллагоре",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#15191D",
+  "theme_color": "#1f6e36",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
