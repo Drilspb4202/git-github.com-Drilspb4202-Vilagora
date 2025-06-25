@@ -1355,7 +1355,6 @@ export default function KareliaRetreatLanding() {
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {checkOutDate ? format(checkOutDate, "dd MMMM yyyy", { locale: ru }) : "Выберите дату выезда"}
-                        {console.log('Rendering checkout button, checkOutDate:', checkOutDate)}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 bg-forest-800 border-forest-600/30" align="start">

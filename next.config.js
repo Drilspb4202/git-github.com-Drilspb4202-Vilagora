@@ -12,7 +12,7 @@ const nextConfig = {
 
   // Оптимизация производительности
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true, // Отключено из-за проблем с critters в Vercel
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
 
