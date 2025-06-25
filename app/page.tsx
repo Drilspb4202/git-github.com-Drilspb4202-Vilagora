@@ -78,14 +78,14 @@ export default function KareliaRetreatLanding() {
 
     // Preload critical hero background image with high priority
     const heroImage = new window.Image()
-    heroImage.src = "/images/hero/hero.jpg"
+    heroImage.src = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&crop=center"
     heroImage.onload = () => {
       console.log("Hero background loaded")
     }
 
     // Preload other critical images
     const preloadImages = [
-      "/images/hero/hero.jpg", // Hero background
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&crop=center", // Hero background
     ]
 
     preloadImages.forEach((src) => {
@@ -155,10 +155,10 @@ export default function KareliaRetreatLanding() {
       description: "Двухэтажный дом в тишине карельской природы",
       color: "from-forest-400 to-forest-600",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Уютный+дом+1",
-        "/placeholder.svg?height=600&width=800&text=Уютный+дом+2",
-        "/placeholder.svg?height=600&width=800&text=Уютный+дом+3",
-        "/placeholder.svg?height=600&width=800&text=Уютный+дом+4",
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Просторный двухэтажный дом с панорамными окнами, откуда открывается потрясающий вид на карельскую природу. Дом оборудован всем необходимым для комфортного проживания: уютные спальни, общая гостиная с камином, полностью оборудованная кухня.",
@@ -170,10 +170,10 @@ export default function KareliaRetreatLanding() {
       description: "Калитки, окрошка, свежая рыба и сезонные угощения",
       color: "from-amber-500 to-amber-700",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Карельская+кухня+1",
-        "/placeholder.svg?height=600&width=800&text=Карельская+кухня+2",
-        "/placeholder.svg?height=600&width=800&text=Карельская+кухня+3",
-        "/placeholder.svg?height=600&width=800&text=Карельская+кухня+4",
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Аутентичная карельская кухня с использованием местных продуктов. Свежая рыба из озера, лесные ягоды и грибы, традиционные калитки и другие блюда региональной кухни. Все готовится с душой и заботой о ваших вкусовых предпочтениях.",
@@ -185,10 +185,10 @@ export default function KareliaRetreatLanding() {
       description: "Трансфер к песчаным берегам для купания и медитаций",
       color: "from-slate-500 to-slate-700",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Сямозеро+1",
-        "/placeholder.svg?height=600&width=800&text=Сямозеро+2",
-        "/placeholder.svg?height=600&width=800&text=Сямозеро+3",
-        "/placeholder.svg?height=600&width=800&text=Сямозеро+4",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1501436513145-30f24e19fcc4?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Одно из красивейших озер Карелии с кристально чистой водой и песчаными пляжами. Идеальное место для купания, медитаций у воды, рыбалки и просто наслаждения природой. Организуем регулярные трансферы к самым живописным местам озера.",
@@ -200,10 +200,10 @@ export default function KareliaRetreatLanding() {
       description: "Сбор ягод, грибов, рыбалка и прогулки по лесу",
       color: "from-forest-500 to-forest-700",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Экотуры+1",
-        "/placeholder.svg?height=600&width=800&text=Экотуры+2",
-        "/placeholder.svg?height=600&width=800&text=Экотуры+3",
-        "/placeholder.svg?height=600&width=800&text=Экотуры+4",
+        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1445308394109-4ec2920981b1?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Увлекательные экологические туры по карельским лесам. Изучаем местную флору и фауну, собираем сезонные ягоды и грибы, учимся рыбачить на озере. Все туры проводятся с опытным гидом, который расскажет о природе Карелии.",
@@ -215,10 +215,10 @@ export default function KareliaRetreatLanding() {
       description: "Эфирные масла и аромаритуалы для восстановления",
       color: "from-forest-300 to-forest-500",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Ароматерапия+1",
-        "/placeholder.svg?height=600&width=800&text=Ароматерапия+2",
-        "/placeholder.svg?height=600&width=800&text=Ароматерапия+3",
-        "/placeholder.svg?height=600&width=800&text=Ароматерапия+4",
+        "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Профессиональные сеансы ароматерапии с использованием натуральных эфирных масел. Индивидуальный подбор ароматов для каждого гостя, обучение основам ароматерапии, создание персональных аромакомпозиций для домашнего использования.",
@@ -230,10 +230,10 @@ export default function KareliaRetreatLanding() {
       description: "Прогревание тела и расслабление под звёздами",
       color: "from-orange-500 to-red-600",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Баня+1",
-        "/placeholder.svg?height=600&width=800&text=Баня+2",
-        "/placeholder.svg?height=600&width=800&text=Баня+3",
-        "/placeholder.svg?height=600&width=800&text=Баня+4",
+        "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Традиционная русская баня на дровах с панорамными окнами и выходом к озеру. Вечерние банные процедуры под звездным небом, ароматные веники из березы и дуба, возможность окунуться в прохладное озеро после парной.",
@@ -245,10 +245,10 @@ export default function KareliaRetreatLanding() {
       description: "Комфортная доставка от вокзала до места отдыха",
       color: "from-blue-500 to-blue-700",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Трансфер+1",
-        "/placeholder.svg?height=600&width=800&text=Трансфер+2",
-        "/placeholder.svg?height=600&width=800&text=Трансфер+3",
-        "/placeholder.svg?height=600&width=800&text=Трансфер+4",
+        "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Организуем комфортный трансфер от железнодорожного вокзала или аэропорта до места проведения ретрита. Современный транспорт, опытные водители, возможность остановок по пути для покупки необходимых вещей.",
@@ -260,10 +260,10 @@ export default function KareliaRetreatLanding() {
       description: "Вечерние развлечения и музыкальные посиделки",
       color: "from-purple-500 to-purple-700",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Караоке+1",
-        "/placeholder.svg?height=600&width=800&text=Караоке+2",
-        "/placeholder.svg?height=600&width=800&text=Караоке+3",
-        "/placeholder.svg?height=600&width=800&text=Караоке+4",
+        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Современная караоке-система для вечерних развлечений. Большая коллекция песен на русском и английском языках, качественное звуковое оборудование, возможность записи выступлений на память.",
@@ -275,10 +275,10 @@ export default function KareliaRetreatLanding() {
       description: "Индивидуальный подход и забота о каждом госте",
       color: "from-pink-500 to-pink-700",
       images: [
-        "/placeholder.svg?height=600&width=800&text=Гостеприимство+1",
-        "/placeholder.svg?height=600&width=800&text=Гостеприимство+2",
-        "/placeholder.svg?height=600&width=800&text=Гостеприимство+3",
-        "/placeholder.svg?height=600&width=800&text=Гостеприимство+4",
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center",
       ],
       fullDescription:
         "Наша команда обеспечивает высочайший уровень сервиса и индивидуальный подход к каждому гостю. Мы учитываем все ваши пожелания и потребности, создавая атмосферу домашнего уюта и заботы.",
@@ -346,7 +346,7 @@ export default function KareliaRetreatLanding() {
         {/* Optimized Background with Next.js Image */}
         <div className="absolute inset-0">
           <NextImage
-            src="/images/hero/hero.jpg"
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&crop=center"
             alt="Карельская природа, ретрит в Виллагоре, озеро Сямозеро, отдых на природе"
             fill
             priority
@@ -660,27 +660,27 @@ export default function KareliaRetreatLanding() {
                 title: "Карельские леса",
                 subtitle: "Древние сосны и чистый воздух",
                 images: [
-                  "/placeholder.svg?height=400&width=600&text=Лес+1",
-                  "/placeholder.svg?height=400&width=600&text=Лес+2",
-                  "/placeholder.svg?height=400&width=600&text=Лес+3",
+                  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop&crop=center",
+                  "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600&h=400&fit=crop&crop=center",
+                  "https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&h=400&fit=crop&crop=center",
                 ],
               },
               {
                 title: "Озеро Сямозеро",
                 subtitle: "Кристально чистая вода",
                 images: [
-                  "/placeholder.svg?height=400&width=600&text=Озеро+1",
-                  "/placeholder.svg?height=400&width=600&text=Озеро+2",
-                  "/placeholder.svg?height=400&width=600&text=Озеро+3",
+                  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&crop=center",
+                  "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&h=400&fit=crop&crop=center",
+                  "https://images.unsplash.com/photo-1501436513145-30f24e19fcc4?w=600&h=400&fit=crop&crop=center",
                 ],
               },
               {
                 title: "Уютный дом",
                 subtitle: "Ваш дом вдали от дома",
                 images: [
-                  "/placeholder.svg?height=400&width=600&text=Дом+1",
-                  "/placeholder.svg?height=400&width=600&text=Дом+2",
-                  "/placeholder.svg?height=400&width=600&text=Дом+3",
+                  "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center",
+                  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop&crop=center",
+                  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&crop=center",
                 ],
               },
             ].map((item, index) => (
