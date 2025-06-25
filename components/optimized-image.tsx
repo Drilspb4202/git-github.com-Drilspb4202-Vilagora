@@ -38,10 +38,11 @@ export function OptimizedImage({
 
   if (hasError) {
     return (
-      <div className={`bg-forest-800/20 flex items-center justify-center ${className}`}>
-        <div className="text-forest-400 text-center">
-          <div className="text-2xl mb-2">🖼️</div>
-          <p className="text-sm">Изображение загружается...</p>
+      <div className={`bg-gradient-to-br from-forest-800/20 to-forest-700/30 flex items-center justify-center ${className} border border-forest-600/20`}>
+        <div className="text-forest-400 text-center p-4">
+          <div className="text-3xl mb-2">🏞️</div>
+          <p className="text-sm font-medium">Скоро здесь будет фото</p>
+          <p className="text-xs text-forest-500 mt-1">Карельская природа</p>
         </div>
       </div>
     )

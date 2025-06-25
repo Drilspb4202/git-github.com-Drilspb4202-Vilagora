@@ -40,6 +40,7 @@ import {
   CreditCard,
   ChevronLeft,
   ChevronRight,
+  FileText,
 } from "lucide-react"
 import NextImage from "next/image"
 import { useState, useEffect } from "react"
@@ -59,8 +60,12 @@ export default function KareliaRetreatLanding() {
   const [selectedPackage, setSelectedPackage] = useState("")
   const [checkInDate, setCheckInDate] = useState<Date>()
   const [checkOutDate, setCheckOutDate] = useState<Date>()
+  const [checkInOpen, setCheckInOpen] = useState(false)
+  const [checkOutOpen, setCheckOutOpen] = useState(false)
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [imageOrientation, setImageOrientation] = useState<'landscape' | 'portrait' | 'square'>('landscape')
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -68,7 +73,43 @@ export default function KareliaRetreatLanding() {
     guests: "1",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [isMapOpen, setIsMapOpen] = useState(false)
+
+  // Обработчики для календарей
+  const handleCheckInSelect = (date: Date | undefined) => {
+    console.log('Check-in date selected:', date)
+    setCheckInDate(date)
+    setCheckInOpen(false)
+  }
+
+  const handleCheckOutSelect = (date: Date | undefined) => {
+    console.log('Check-out date selected:', date)
+    console.log('Current checkOutDate:', checkOutDate)
+    console.log('Setting checkOutDate to:', date)
+    setCheckOutDate(date)
+    setCheckOutOpen(false)
+    console.log('Check-out handler completed')
+  }
+
+  // Функция для расчета общей стоимости
+  const calculateTotalPrice = () => {
+    if (!selectedPackage || !formData.guests) return 0
+
+    const selectedPkg = packages.find(pkg => pkg.name === selectedPackage)
+    if (!selectedPkg) return 0
+
+    const guestCount = parseInt(formData.guests) // Получаем число гостей
+    const totalPrice = selectedPkg.pricePerPersonPerDay * selectedPkg.days * guestCount
+
+    return totalPrice
+  }
+
+  // Функция для форматирования цены
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('ru-RU').format(price) + ' ₽'
+  }
 
   const [imagesLoaded, setImagesLoaded] = useState(false)
   const [imageLoadingProgress, setImageLoadingProgress] = useState(0)
@@ -78,14 +119,14 @@ export default function KareliaRetreatLanding() {
 
     // Preload critical hero background image with high priority
     const heroImage = new window.Image()
-    heroImage.src = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&crop=center"
+    heroImage.src = "/images/hero/hero.jpg"
     heroImage.onload = () => {
       console.log("Hero background loaded")
     }
 
     // Preload other critical images
     const preloadImages = [
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&crop=center", // Hero background
+      "/images/hero/hero.jpg", // Hero background
     ]
 
     preloadImages.forEach((src) => {
@@ -115,7 +156,9 @@ export default function KareliaRetreatLanding() {
     {
       name: "Минимальный",
       duration: "3 дня",
+      days: 3,
       price: "39 000 ₽",
+      pricePerPersonPerDay: 13000,
       description: "Идеально для первого знакомства",
       gradient: "from-forest-600 to-forest-700",
       features: ["Проживание", "Питание", "Трансфер", "Баня"],
@@ -123,7 +166,9 @@ export default function KareliaRetreatLanding() {
     {
       name: "Средний",
       duration: "5 дней",
-      price: "59 000 ₽",
+      days: 5,
+      price: "65 000 ₽",
+      pricePerPersonPerDay: 13000,
       description: "Оптимальный баланс отдыха",
       popular: true,
       gradient: "from-forest-500 to-forest-600",
@@ -132,7 +177,9 @@ export default function KareliaRetreatLanding() {
     {
       name: "Комфортный",
       duration: "7 дней",
-      price: "79 000 ₽",
+      days: 7,
+      price: "91 000 ₽",
+      pricePerPersonPerDay: 13000,
       description: "Полное погружение в природу",
       gradient: "from-forest-400 to-forest-500",
       features: ["Проживание", "Питание", "Трансфер", "Баня", "Экотуры", "Ароматерапия", "Рыбалка"],
@@ -140,7 +187,9 @@ export default function KareliaRetreatLanding() {
     {
       name: "Максимальный",
       duration: "10 дней",
-      price: "109 000 ₽",
+      days: 10,
+      price: "130 000 ₽",
+      pricePerPersonPerDay: 13000,
       description: "Глубокая перезагрузка души",
       gradient: "from-amber-600 to-forest-600",
       features: ["Все включено", "Персональный гид", "Индивидуальные экскурсии", "Спа-процедуры"],
@@ -155,10 +204,36 @@ export default function KareliaRetreatLanding() {
       description: "Двухэтажный дом в тишине карельской природы",
       color: "from-forest-400 to-forest-600",
       images: [
-        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&crop=center",
+        "/images/accommodation/house-1.jpg",
+        "/images/accommodation/house-2.jpg",
+        "/images/accommodation/house-3.jpg",
+        "/images/accommodation/house-4.jpg",
+        "/images/accommodation/house-5.jpg",
+        "/images/accommodation/house-6.jpg",
+        "/images/accommodation/house-7.jpg",
+        "/images/accommodation/house-8.jpg",
+        "/images/accommodation/house-9.jpg",
+        "/images/accommodation/house-10.jpg",
+        "/images/accommodation/house-11.jpg",
+        "/images/accommodation/house-12.jpg",
+        "/images/accommodation/house-13.jpg",
+        "/images/accommodation/house-14.jpg",
+        "/images/accommodation/house-15.jpg",
+        "/images/accommodation/house-16.jpg",
+        "/images/accommodation/house-17.jpg",
+        "/images/accommodation/house-18.jpg",
+        "/images/accommodation/house-19.jpg",
+        "/images/accommodation/house-20.jpg",
+        "/images/accommodation/house-21.jpg",
+        "/images/accommodation/house-22.jpg",
+        "/images/accommodation/house-23.jpg",
+        "/images/accommodation/house-24.jpg",
+        "/images/accommodation/house-25.jpg",
+        "/images/accommodation/house-26.jpg",
+        "/images/accommodation/house-27.jpg",
+        "/images/accommodation/house-28.jpg",
+        "/images/accommodation/house-29.jpg",
+        "/images/accommodation/house-30.jpg",
       ],
       fullDescription:
         "Просторный двухэтажный дом с панорамными окнами, откуда открывается потрясающий вид на карельскую природу. Дом оборудован всем необходимым для комфортного проживания: уютные спальни, общая гостиная с камином, полностью оборудованная кухня.",
@@ -166,15 +241,10 @@ export default function KareliaRetreatLanding() {
     {
       id: "kitchen",
       icon: <Utensils className="h-6 w-6 sm:h-8 sm:w-8" />,
-      title: "Домашняя кухня",
+      title: "Северная кухня",
       description: "Калитки, окрошка, свежая рыба и сезонные угощения",
       color: "from-amber-500 to-amber-700",
-      images: [
-        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&h=600&fit=crop&crop=center",
-      ],
+      images: [],
       fullDescription:
         "Аутентичная карельская кухня с использованием местных продуктов. Свежая рыба из озера, лесные ягоды и грибы, традиционные калитки и другие блюда региональной кухни. Все готовится с душой и заботой о ваших вкусовых предпочтениях.",
     },
@@ -185,13 +255,13 @@ export default function KareliaRetreatLanding() {
       description: "Трансфер к песчаным берегам для купания и медитаций",
       color: "from-slate-500 to-slate-700",
       images: [
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1501436513145-30f24e19fcc4?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop&crop=center",
+        "/images/syamozero/syamozero-1.jpg",
+        "/images/syamozero/syamozero-2.jpg",
+        "/images/syamozero/syamozero-3.jpg",
+        "/images/syamozero/syamozero-4.jpg",
       ],
       fullDescription:
-        "Одно из красивейших озер Карелии с кристально чистой водой и песчаными пляжами. Идеальное место для купания, медитаций у воды, рыбалки и просто наслаждения природой. Организуем регулярные трансферы к самым живописным местам озера.",
+        "Одно из красивейших озер Карелии с кристально чистой водой и песчаными пляжами. Наслаждайтесь рассветами и закатами над водной гладью, купайтесь в чистейшей воде, медитируйте на берегу под шум волн. Идеальное место для рыбалки, водных процедур и созерцания природы. Организуем регулярные трансферы к самым живописным и уединенным местам озера, где можно полностью погрузиться в атмосферу карельской природы.",
     },
     {
       id: "ecotours",
@@ -200,13 +270,19 @@ export default function KareliaRetreatLanding() {
       description: "Сбор ягод, грибов, рыбалка и прогулки по лесу",
       color: "from-forest-500 to-forest-700",
       images: [
-        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1445308394109-4ec2920981b1?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&h=600&fit=crop&crop=center",
+        "/images/ecotours/mushroom-picking-1.jpg",
+        "/images/ecotours/berry-picking.jpg",
+        "/images/ecotours/fishing.jpg",
+        "/images/ecotours/forest-walk.jpg",
+        "/images/ecotours/karelian-forest-1.jpg",
+        "/images/ecotours/karelian-forest-2.jpg",
+        "/images/ecotours/karelian-forest-3.jpg",
+        "/images/ecotours/mushroom-picking-3.jpg",
+        "/images/ecotours/mushroom-picking-4.jpg",
+        "/images/ecotours/mushroom-picking.jpg",
       ],
       fullDescription:
-        "Увлекательные экологические туры по карельским лесам. Изучаем местную флору и фауну, собираем сезонные ягоды и грибы, учимся рыбачить на озере. Все туры проводятся с опытным гидом, который расскажет о природе Карелии.",
+        "Увлекательные экологические туры по карельским лесам и озерам. Изучаем местную флору и фауну, собираем сезонные ягоды и грибы, учимся рыбачить на озере Сямозеро. Прогулки по древним карельским лесам с изучением лекарственных растений и следов диких животных. Все туры проводятся с опытным гидом-экологом, который расскажет о природе Карелии, научит различать съедобные грибы и ягоды, покажет лучшие места для рыбалки.",
     },
     {
       id: "aromatherapy",
@@ -215,10 +291,10 @@ export default function KareliaRetreatLanding() {
       description: "Эфирные масла и аромаритуалы для восстановления",
       color: "from-forest-300 to-forest-500",
       images: [
-        "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&h=600&fit=crop&crop=center",
+        "/images/wellness/essential-oils.jpg",
+        "/images/wellness/aromatherapy-session.jpg",
+        "/images/wellness/aroma-diffuser.jpg",
+        "/images/wellness/relaxation-aromatherapy.jpg",
       ],
       fullDescription:
         "Профессиональные сеансы ароматерапии с использованием натуральных эфирных масел. Индивидуальный подбор ароматов для каждого гостя, обучение основам ароматерапии, создание персональных аромакомпозиций для домашнего использования.",
@@ -230,13 +306,14 @@ export default function KareliaRetreatLanding() {
       description: "Прогревание тела и расслабление под звёздами",
       color: "from-orange-500 to-red-600",
       images: [
-        "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&h=600&fit=crop&crop=center",
+        "/images/wellness/sauna-1.jpg",
+        "/images/wellness/sauna-2.JPG",
+        "/images/wellness/sauna-3.JPG",
+        "/images/wellness/sauna-4.JPG",
+        "/images/wellness/sauna-5.JPG",
       ],
       fullDescription:
-        "Традиционная русская баня на дровах с панорамными окнами и выходом к озеру. Вечерние банные процедуры под звездным небом, ароматные веники из березы и дуба, возможность окунуться в прохладное озеро после парной.",
+        "Традиционная русская баня на дровах с панорамными окнами и выходом к озеру. Вечерние банные процедуры под звездным небом, ароматные веники из березы и дуба, возможность окунуться в прохладное озеро после парной. Баня включает: парную с печью-каменкой, комнату отдыха с травяными чаями, террасу с видом на карельскую природу. Работает ежедневно с 16:00 до 22:00. Все необходимые принадлежности предоставляются.",
     },
     {
       id: "transfer",
@@ -244,12 +321,7 @@ export default function KareliaRetreatLanding() {
       title: "Трансфер",
       description: "Комфортная доставка от вокзала до места отдыха",
       color: "from-blue-500 to-blue-700",
-      images: [
-        "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop&crop=center",
-      ],
+      images: [],
       fullDescription:
         "Организуем комфортный трансфер от железнодорожного вокзала или аэропорта до места проведения ретрита. Современный транспорт, опытные водители, возможность остановок по пути для покупки необходимых вещей.",
     },
@@ -259,12 +331,7 @@ export default function KareliaRetreatLanding() {
       title: "Караоке",
       description: "Вечерние развлечения и музыкальные посиделки",
       color: "from-purple-500 to-purple-700",
-      images: [
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&crop=center",
-      ],
+      images: [],
       fullDescription:
         "Современная караоке-система для вечерних развлечений. Большая коллекция песен на русском и английском языках, качественное звуковое оборудование, возможность записи выступлений на память.",
     },
@@ -274,28 +341,79 @@ export default function KareliaRetreatLanding() {
       title: "Гостеприимство",
       description: "Индивидуальный подход и забота о каждом госте",
       color: "from-pink-500 to-pink-700",
-      images: [
-        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center",
-      ],
+      images: [],
       fullDescription:
         "Наша команда обеспечивает высочайший уровень сервиса и индивидуальный подход к каждому гостю. Мы учитываем все ваши пожелания и потребности, создавая атмосферу домашнего уюта и заботы.",
     },
   ]
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const sendToTelegram = async (bookingData: any) => {
+    try {
+      const response = await fetch('/api/telegram', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error('API error:', errorData)
+        throw new Error(errorData.error || 'Failed to send message to Telegram')
+      }
+
+      return true
+    } catch (error) {
+      console.error('Error sending to Telegram:', error)
+      return false
+    }
+  }
+
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Здесь будет логика отправки формы
-    console.log("Booking submitted:", {
+    setIsSubmitting(true)
+
+    const bookingData = {
       ...formData,
       package: selectedPackage,
       checkIn: checkInDate,
       checkOut: checkOutDate,
-    })
-    setIsBookingOpen(false)
-    // Показать уведомление об успешной отправке
+    }
+
+    try {
+      const success = await sendToTelegram(bookingData)
+
+      if (success) {
+        setShowSuccessMessage(true)
+        // Очистить форму
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          guests: "1",
+          message: "",
+        })
+        setSelectedPackage("")
+        setCheckInDate(undefined)
+        setCheckOutDate(undefined)
+        setCheckInOpen(false)
+        setCheckOutOpen(false)
+
+        // Закрыть модальное окно через 3 секунды
+        setTimeout(() => {
+          setIsBookingOpen(false)
+          setShowSuccessMessage(false)
+        }, 3000)
+      } else {
+        alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз или свяжитесь с нами по телефону.')
+      }
+    } catch (error) {
+      console.error('Error submitting booking:', error)
+      alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз или свяжитесь с нами по телефону.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const openBookingModal = (packageName: string) => {
@@ -306,6 +424,29 @@ export default function KareliaRetreatLanding() {
   const openFeatureGallery = (featureId: string) => {
     setSelectedFeature(featureId)
     setCurrentImageIndex(0)
+    // Определяем ориентацию первого изображения
+    const feature = features.find(f => f.id === featureId)
+    if (feature && feature.images[0]) {
+      checkImageOrientation(feature.images[0])
+    }
+  }
+
+  // Функция для определения ориентации изображения
+  const checkImageOrientation = (imageSrc: string) => {
+    if (!imageSrc) return
+
+    const img = new Image()
+    img.onload = () => {
+      const aspectRatio = img.width / img.height
+      if (aspectRatio > 1.2) {
+        setImageOrientation('landscape')
+      } else if (aspectRatio < 0.8) {
+        setImageOrientation('portrait')
+      } else {
+        setImageOrientation('square')
+      }
+    }
+    img.src = imageSrc
   }
 
   const closeFeatureGallery = () => {
@@ -316,16 +457,38 @@ export default function KareliaRetreatLanding() {
   const nextImage = () => {
     const feature = features.find((f) => f.id === selectedFeature)
     if (feature) {
-      setCurrentImageIndex((prev) => (prev + 1) % feature.images.length)
+      const newIndex = (currentImageIndex + 1) % feature.images.length
+      setCurrentImageIndex(newIndex)
+      checkImageOrientation(feature.images[newIndex])
     }
   }
 
   const prevImage = () => {
     const feature = features.find((f) => f.id === selectedFeature)
     if (feature) {
-      setCurrentImageIndex((prev) => (prev - 1 + feature.images.length) % feature.images.length)
+      const newIndex = (currentImageIndex - 1 + feature.images.length) % feature.images.length
+      setCurrentImageIndex(newIndex)
+      checkImageOrientation(feature.images[newIndex])
     }
   }
+
+  // Keyboard navigation for gallery
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (selectedFeature) {
+        if (event.key === 'ArrowLeft') {
+          prevImage()
+        } else if (event.key === 'ArrowRight') {
+          nextImage()
+        } else if (event.key === 'Escape') {
+          closeFeatureGallery()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [selectedFeature])  // eslint-disable-line react-hooks/exhaustive-deps
 
   const selectedFeatureData = features.find((f) => f.id === selectedFeature)
 
@@ -346,7 +509,7 @@ export default function KareliaRetreatLanding() {
         {/* Optimized Background with Next.js Image */}
         <div className="absolute inset-0">
           <NextImage
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&crop=center"
+            src="/images/hero/hero.jpg"
             alt="Карельская природа, ретрит в Виллагоре, озеро Сямозеро, отдых на природе"
             fill
             priority
@@ -513,8 +676,8 @@ export default function KareliaRetreatLanding() {
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl hover:shadow-3xl cursor-pointer"
-                onClick={() => openFeatureGallery(feature.id)}
+                className={`group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl hover:shadow-3xl ${feature.images.length > 0 ? 'cursor-pointer' : ''}`}
+                onClick={feature.images.length > 0 ? () => openFeatureGallery(feature.id) : undefined}
               >
                 <CardHeader className="pb-3 sm:pb-4">
                   <div
@@ -530,10 +693,12 @@ export default function KareliaRetreatLanding() {
                   <p className="text-stone-300 text-base sm:text-lg leading-relaxed mb-3 sm:mb-4">
                     {feature.description}
                   </p>
-                  <div className="flex items-center text-forest-400 text-sm font-medium">
-                    <span>Посмотреть фото</span>
-                    <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  {feature.images.length > 0 && (
+                    <div className="flex items-center text-forest-400 text-sm font-medium">
+                      <span>Посмотреть фото</span>
+                      <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -611,8 +776,11 @@ export default function KareliaRetreatLanding() {
                 </CardHeader>
 
                 <CardContent className="text-center relative z-10 px-4 sm:px-6">
-                  <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-stone-100 mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-stone-100 mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300">
                     {pkg.price}
+                  </div>
+                  <div className="text-xs sm:text-sm text-stone-400 mb-3 sm:mb-4">
+                    {formatPrice(pkg.pricePerPersonPerDay)} за человека в день
                   </div>
                   <p className="text-stone-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">{pkg.description}</p>
 
@@ -646,13 +814,7 @@ export default function KareliaRetreatLanding() {
             Место силы — Карелия
           </h2>
 
-          {/* Loading progress indicator */}
-          {!imagesLoaded && (
-            <div className="mb-6 sm:mb-8">
-              <p className="text-center text-stone-300 mb-3 sm:mb-4 text-sm sm:text-base">Загружаем фотографии...</p>
-              <LoadingProgress progress={imageLoadingProgress} />
-            </div>
-          )}
+
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {[
@@ -660,27 +822,27 @@ export default function KareliaRetreatLanding() {
                 title: "Карельские леса",
                 subtitle: "Древние сосны и чистый воздух",
                 images: [
-                  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop&crop=center",
-                  "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600&h=400&fit=crop&crop=center",
-                  "https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&h=400&fit=crop&crop=center",
+                  "/images/ecotours/karelian-forest-1.jpg",
+                  "/images/ecotours/karelian-forest-2.jpg",
+                  "/images/ecotours/karelian-forest-3.jpg",
                 ],
               },
               {
                 title: "Озеро Сямозеро",
                 subtitle: "Кристально чистая вода",
                 images: [
-                  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&crop=center",
-                  "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&h=400&fit=crop&crop=center",
-                  "https://images.unsplash.com/photo-1501436513145-30f24e19fcc4?w=600&h=400&fit=crop&crop=center",
+                  "/images/syamozero/syamozero-1.jpg",
+                  "/images/syamozero/syamozero-2.jpg",
+                  "/images/syamozero/syamozero-3.jpg",
                 ],
               },
               {
                 title: "Уютный дом",
                 subtitle: "Ваш дом вдали от дома",
                 images: [
-                  "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center",
-                  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop&crop=center",
-                  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&crop=center",
+                  "/images/accommodation/house-1.jpg",
+                  "/images/accommodation/house-2.jpg",
+                  "/images/accommodation/house-3.jpg",
                 ],
               },
             ].map((item, index) => (
@@ -719,7 +881,7 @@ export default function KareliaRetreatLanding() {
             наконец возвращаешься к себе.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
             <Card
               className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl cursor-pointer"
               onClick={() => window.open("tel:89522010778")}
@@ -755,6 +917,24 @@ export default function KareliaRetreatLanding() {
                 <p className="text-stone-300 text-sm sm:text-base">Быстрые ответы в чате</p>
               </CardContent>
             </Card>
+
+            <Card
+              className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl cursor-pointer"
+              onClick={() => setIsBookingOpen(true)}
+            >
+              <CardHeader>
+                <div className="flex items-center justify-center mb-4 sm:mb-6">
+                  <div className="bg-gradient-to-r from-blue-600 to-blue-700 w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-300 group-hover:rotate-12">
+                    <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+                  </div>
+                </div>
+                <CardTitle className="text-xl sm:text-2xl text-stone-100">Оставить заявку</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-xl sm:text-2xl font-bold text-blue-400 mb-2">На сайте</p>
+                <p className="text-stone-300 text-sm sm:text-base">Удобная форма бронирования</p>
+              </CardContent>
+            </Card>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
@@ -774,6 +954,15 @@ export default function KareliaRetreatLanding() {
             >
               <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
               Написать в Telegram
+              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white text-lg sm:text-xl px-8 sm:px-12 py-3 sm:py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0 w-full sm:w-auto"
+              onClick={() => setIsBookingOpen(true)}
+            >
+              <FileText className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
+              Оставить заявку
               <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
@@ -800,76 +989,203 @@ export default function KareliaRetreatLanding() {
 
       {/* Feature Gallery Modal */}
       <Dialog open={!!selectedFeature} onOpenChange={closeFeatureGallery}>
-        <DialogContent className="sm:max-w-[90vw] md:max-w-[900px] bg-forest-900/95 backdrop-blur-sm border-forest-700/30 text-stone-100 p-0 max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] sm:max-w-[90vw] md:max-w-[900px] bg-forest-900/95 backdrop-blur-sm border-forest-700/30 text-stone-100 p-0 max-h-[95vh] sm:max-h-[90vh] overflow-hidden mobile-modal">
           {selectedFeatureData && (
             <>
-              <DialogHeader className="p-4 sm:p-6 pb-0">
-                <DialogTitle className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-forest-400 to-amber-400 bg-clip-text text-transparent flex items-center gap-2 sm:gap-3">
+              <DialogHeader className="p-3 sm:p-4 md:p-6 pb-0 flex-shrink-0">
+                <DialogTitle className="text-lg sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-forest-400 to-amber-400 bg-clip-text text-transparent flex items-center gap-2 sm:gap-3">
                   <div
-                    className={`bg-gradient-to-r ${selectedFeatureData.color} w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center`}
+                    className={`bg-gradient-to-r ${selectedFeatureData.color} w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0`}
                   >
-                    <div className="text-white">{selectedFeatureData.icon}</div>
+                    <div className="text-white text-sm sm:text-base">{selectedFeatureData.icon}</div>
                   </div>
-                  {selectedFeatureData.title}
+                  <span className="truncate">{selectedFeatureData.title}</span>
                 </DialogTitle>
-                <DialogDescription className="text-stone-300 text-base sm:text-lg mt-3 sm:mt-4">
+                <DialogDescription className="text-stone-300 text-xs sm:text-sm md:text-base leading-relaxed mt-2 sm:mt-3 pr-2 sm:pr-4">
                   {selectedFeatureData.fullDescription}
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="relative">
-                <div className="relative h-64 sm:h-96 bg-forest-800/20">
+              <div className="relative flex-1 overflow-hidden">
+                <div
+                  className={`relative bg-forest-800/20 cursor-pointer select-none flex items-center justify-center mobile-optimized touch-optimized ${
+                    imageOrientation === 'portrait'
+                      ? 'h-[60vh] sm:h-[65vh] md:h-[70vh] max-h-[500px] sm:max-h-[600px]'
+                      : imageOrientation === 'square'
+                      ? 'h-56 sm:h-64 md:h-80 lg:h-96'
+                      : 'h-48 sm:h-64 md:h-80 lg:h-96'
+                  }`}
+                  onTouchStart={(e) => {
+                    const touch = e.touches[0]
+                    setTouchStart(touch.clientX)
+                  }}
+                  onTouchEnd={(e) => {
+                    if (!touchStart) return
+                    const touch = e.changedTouches[0]
+                    const diff = touchStart - touch.clientX
+
+                    if (Math.abs(diff) > 50) { // Minimum swipe distance
+                      if (diff > 0) {
+                        nextImage() // Swipe left = next image
+                      } else {
+                        prevImage() // Swipe right = previous image
+                      }
+                    }
+                    setTouchStart(null)
+                  }}
+                >
                   <NextImage
                     src={selectedFeatureData.images[currentImageIndex] || "/placeholder.svg"}
                     alt={`${selectedFeatureData.title} ${currentImageIndex + 1}`}
                     fill
-                    className="object-cover"
+                    className={`${
+                      imageOrientation === 'portrait'
+                        ? 'object-contain'
+                        : 'object-cover'
+                    }`}
+                    onError={(e) => {
+                      console.log(`Ошибка загрузки изображения: ${selectedFeatureData.images[currentImageIndex]}`)
+                      // Можно добавить fallback изображение
+                    }}
+                    priority={currentImageIndex === 0}
                   />
 
-                  {/* Navigation buttons */}
+                  {/* Navigation buttons - оптимизированы для мобильных */}
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-forest-900/80 border-forest-600/30 text-stone-200 hover:bg-forest-800/90 w-8 h-8 sm:w-10 sm:h-10"
+                    className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-forest-900/90 backdrop-blur-sm border-forest-600/30 text-stone-200 hover:bg-forest-800/95 transition-all duration-200 shadow-lg w-10 h-10 sm:w-12 sm:h-12 rounded-full touch-manipulation"
                     onClick={prevImage}
                   >
-                    <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" />
+                    <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
                   </Button>
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-forest-900/80 border-forest-600/30 text-stone-200 hover:bg-forest-800/90 w-8 h-8 sm:w-10 sm:h-10"
+                    className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-forest-900/90 backdrop-blur-sm border-forest-600/30 text-stone-200 hover:bg-forest-800/95 transition-all duration-200 shadow-lg w-10 h-10 sm:w-12 sm:h-12 rounded-full touch-manipulation"
                     onClick={nextImage}
                   >
-                    <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
+                    <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
                   </Button>
 
-                  {/* Image counter */}
-                  <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-forest-900/80 backdrop-blur-sm rounded-full px-3 py-1 sm:px-4 sm:py-2 text-stone-200 text-sm">
-                    {currentImageIndex + 1} / {selectedFeatureData.images.length}
+                  {/* Image counter with orientation indicator - мобильно-оптимизированный */}
+                  <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-forest-900/90 backdrop-blur-sm rounded-full px-2 py-1 sm:px-4 sm:py-2 text-stone-200 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 shadow-lg">
+                    <span className="font-medium">{currentImageIndex + 1} / {selectedFeatureData.images.length}</span>
+                    {imageOrientation === 'portrait' && (
+                      <span className="text-xs text-forest-300" title="Вертикальное фото">📱</span>
+                    )}
+                    {imageOrientation === 'landscape' && (
+                      <span className="text-xs text-forest-300" title="Горизонтальное фото">🖼️</span>
+                    )}
+                    {imageOrientation === 'square' && (
+                      <span className="text-xs text-forest-300" title="Квадратное фото">⬜</span>
+                    )}
                   </div>
                 </div>
 
-                {/* Thumbnails */}
-                <div className="flex gap-2 p-4 sm:p-6 justify-center overflow-x-auto">
-                  {selectedFeatureData.images.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`relative w-12 h-12 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 flex-shrink-0 ${
-                        index === currentImageIndex
-                          ? "border-forest-400 scale-110"
-                          : "border-forest-700/30 hover:border-forest-500/50"
-                      }`}
-                    >
-                      <NextImage
-                        src={image || "/placeholder.svg"}
-                        alt={`${selectedFeatureData.title} thumbnail ${index + 1}`}
-                        fill
-                        className="object-cover"
-                      />
-                    </button>
-                  ))}
+                {/* Optimized Thumbnails Carousel - мобильно-оптимизированный */}
+                <div className="p-3 sm:p-4 md:p-6 bg-forest-800/20 border-t border-forest-700/30">
+                  <div className="relative">
+                    {/* Thumbnails container with proper overflow handling */}
+                    <div className="overflow-hidden smooth-scroll">
+                      <div
+                        className="flex gap-2 transition-transform duration-300 ease-in-out"
+                        style={{
+                          transform: `translateX(-${Math.max(0, (currentImageIndex - 2) * (56 + 8))}px)`
+                        }}
+                      >
+                        {selectedFeatureData.images.map((image, index) => (
+                          <button
+                            key={index}
+                            onClick={() => {
+                              setCurrentImageIndex(index)
+                              checkImageOrientation(selectedFeatureData.images[index])
+                            }}
+                            className={`relative w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-lg overflow-hidden border-2 transition-all duration-200 flex-shrink-0 touch-manipulation ${
+                              index === currentImageIndex
+                                ? "border-forest-400 scale-105 sm:scale-110 shadow-lg"
+                                : "border-forest-700/30 hover:border-forest-500/50 active:scale-95 sm:hover:scale-105"
+                            }`}
+                            title={`Фото ${index + 1} из ${selectedFeatureData.images.length}`}
+                          >
+                            <NextImage
+                              src={image || "/placeholder.svg"}
+                              alt={`${selectedFeatureData.title} thumbnail ${index + 1}`}
+                              fill
+                              className="object-cover"
+                              onError={(e) => {
+                                console.log(`Ошибка загрузки миниатюры: ${image}`)
+                              }}
+                            />
+                            {/* Номер изображения для больших галерей */}
+                            {selectedFeatureData.images.length > 10 && (
+                              <div className="absolute top-0.5 left-0.5 bg-forest-900/80 text-white text-xs px-1 rounded text-center leading-tight">
+                                {index + 1}
+                              </div>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Navigation arrows for thumbnails */}
+                    {selectedFeatureData.images.length > 5 && (
+                      <>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-forest-900/90 hover:bg-forest-800/95 text-stone-200 w-8 h-8 sm:w-9 sm:h-9 p-0 rounded-full shadow-lg touch-manipulation"
+                          onClick={() => {
+                            const newIndex = Math.max(0, currentImageIndex - 1)
+                            setCurrentImageIndex(newIndex)
+                            checkImageOrientation(selectedFeatureData.images[newIndex])
+                          }}
+                          disabled={currentImageIndex === 0}
+                        >
+                          <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-forest-900/90 hover:bg-forest-800/95 text-stone-200 w-8 h-8 sm:w-9 sm:h-9 p-0 rounded-full shadow-lg touch-manipulation"
+                          onClick={() => {
+                            const newIndex = Math.min(selectedFeatureData.images.length - 1, currentImageIndex + 1)
+                            setCurrentImageIndex(newIndex)
+                            checkImageOrientation(selectedFeatureData.images[newIndex])
+                          }}
+                          disabled={currentImageIndex === selectedFeatureData.images.length - 1}
+                        >
+                          <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                        </Button>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Progress indicator and navigation hints */}
+                  <div className="mt-3 text-center space-y-2">
+                    {selectedFeatureData.images.length > 10 && (
+                      <div className="inline-flex items-center gap-2 text-xs text-stone-400">
+                        <span>Фото {currentImageIndex + 1} из {selectedFeatureData.images.length}</span>
+                        <div className="w-20 h-1 bg-forest-800/50 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-forest-400 transition-all duration-300"
+                            style={{ width: `${((currentImageIndex + 1) / selectedFeatureData.images.length) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Navigation hints - улучшенные для мобильных */}
+                    <div className="text-xs text-stone-500 space-y-1 text-center">
+                      <div className="hidden sm:block">
+                        Используйте стрелки ← → на клавиатуре для навигации
+                      </div>
+                      <div className="sm:hidden space-y-1">
+                        <div>📱 Свайпайте влево/вправо для переключения фото</div>
+                        <div>👆 Нажимайте на миниатюры для быстрого перехода</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </>
@@ -882,14 +1198,32 @@ export default function KareliaRetreatLanding() {
         <DialogContent className="w-[95vw] max-w-[500px] bg-forest-900/95 backdrop-blur-sm border-forest-700/30 text-stone-100 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-forest-400 to-amber-400 bg-clip-text text-transparent">
-              Бронирование ретрита
+              {showSuccessMessage ? "Заявка принята!" : "Бронирование ретрита"}
             </DialogTitle>
             <DialogDescription className="text-stone-300 text-sm sm:text-base">
-              Заполните форму, и мы свяжемся с вами для подтверждения бронирования
+              {showSuccessMessage
+                ? "Спасибо за вашу заявку! Мы свяжемся с вами в ближайшее время для подтверждения бронирования."
+                : "Заполните форму, и мы свяжемся с вами для подтверждения бронирования"
+              }
             </DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handleBookingSubmit} className="space-y-4 sm:space-y-6">
+          {showSuccessMessage ? (
+            <div className="flex flex-col items-center justify-center py-8 space-y-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <p className="text-center text-stone-200 text-lg font-medium">
+                Ваша заявка успешно отправлена!
+              </p>
+              <p className="text-center text-stone-400 text-sm">
+                Окно закроется автоматически через несколько секунд
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleBookingSubmit} className="space-y-4 sm:space-y-6">
             <div className="grid grid-cols-1 gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-2">
@@ -977,23 +1311,31 @@ export default function KareliaRetreatLanding() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-2">
                   <Label className="text-stone-200 text-sm">Заезд</Label>
-                  <Popover>
+                  <Popover open={checkInOpen} onOpenChange={setCheckInOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className="w-full justify-start text-left font-normal bg-forest-800/30 border-forest-600/30 text-stone-100 hover:bg-forest-700/40 h-9 sm:h-10"
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {checkInDate ? format(checkInDate, "dd.MM", { locale: ru }) : "Дата"}
+                        {checkInDate ? format(checkInDate, "dd MMMM yyyy", { locale: ru }) : "Выберите дату заезда"}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 bg-forest-800 border-forest-600/30" align="start">
+                      <div className="p-2">
+                        <button
+                          onClick={() => handleCheckInSelect(new Date())}
+                          className="mb-2 px-3 py-1 bg-green-600 text-white rounded text-sm"
+                        >
+                          Тест: Установить сегодня
+                        </button>
+                      </div>
                       <Calendar
+                        key="checkin-calendar"
                         mode="single"
                         selected={checkInDate}
-                        onSelect={setCheckInDate}
-                        disabled={(date) => date < new Date() || date < new Date("2024-07-05")}
-                        initialFocus
+                        onSelect={handleCheckInSelect}
+                        disabled={false}
                         className="text-stone-100"
                       />
                     </PopoverContent>
@@ -1001,26 +1343,37 @@ export default function KareliaRetreatLanding() {
                 </div>
                 <div className="space-y-2">
                   <Label className="text-stone-200 text-sm">Выезд</Label>
-                  <Popover>
+                  <Popover open={checkOutOpen} onOpenChange={setCheckOutOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className="w-full justify-start text-left font-normal bg-forest-800/30 border-forest-600/30 text-stone-100 hover:bg-forest-700/40 h-9 sm:h-10"
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {checkOutDate ? format(checkOutDate, "dd.MM", { locale: ru }) : "Дата"}
+                        {checkOutDate ? format(checkOutDate, "dd MMMM yyyy", { locale: ru }) : "Выберите дату выезда"}
+                        {console.log('Rendering checkout button, checkOutDate:', checkOutDate)}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 bg-forest-800 border-forest-600/30" align="start">
+                      <div className="p-2">
+                        <button
+                          onClick={() => handleCheckOutSelect(new Date(Date.now() + 24 * 60 * 60 * 1000))}
+                          className="mb-2 px-3 py-1 bg-green-600 text-white rounded text-sm"
+                        >
+                          Тест: Установить завтра
+                        </button>
+                      </div>
                       <Calendar
+                        key="checkout-calendar"
                         mode="single"
                         selected={checkOutDate}
-                        onSelect={setCheckOutDate}
-                        disabled={(date) =>
-                          date < new Date() || date > new Date("2024-07-14") || (checkInDate && date <= checkInDate)
-                        }
-                        initialFocus
+                        onSelect={handleCheckOutSelect}
+                        disabled={false}
                         className="text-stone-100"
+                        onDayClick={(day) => {
+                          console.log('Checkout day clicked:', day)
+                          handleCheckOutSelect(day)
+                        }}
                       />
                     </PopoverContent>
                   </Popover>
@@ -1041,6 +1394,35 @@ export default function KareliaRetreatLanding() {
               </div>
 
               <div className="bg-forest-800/20 rounded-lg p-3 border border-forest-600/30">
+                <h4 className="font-semibold text-forest-400 mb-2 text-sm">Расчет стоимости:</h4>
+                {selectedPackage && formData.guests ? (
+                  <div className="space-y-1 mb-3">
+                    <div className="flex justify-between text-xs text-stone-300">
+                      <span>Пакет: {selectedPackage}</span>
+                      <span>{packages.find(p => p.name === selectedPackage)?.duration}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-stone-300">
+                      <span>Количество гостей:</span>
+                      <span>{formData.guests} чел.</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-stone-300">
+                      <span>Стоимость за человека в день:</span>
+                      <span>{formatPrice(packages.find(p => p.name === selectedPackage)?.pricePerPersonPerDay || 0)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-stone-300">
+                      <span>Расчет:</span>
+                      <span>{formatPrice(packages.find(p => p.name === selectedPackage)?.pricePerPersonPerDay || 0)} × {packages.find(p => p.name === selectedPackage)?.days} дн. × {formData.guests} чел.</span>
+                    </div>
+                    <hr className="border-forest-600/30 my-2" />
+                    <div className="flex justify-between text-sm font-semibold text-forest-400">
+                      <span>Общая стоимость:</span>
+                      <span>{formatPrice(calculateTotalPrice())}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-stone-400 mb-3">Выберите пакет и количество гостей для расчета</p>
+                )}
+
                 <h4 className="font-semibold text-forest-400 mb-1 text-sm">Условия:</h4>
                 <ul className="text-xs text-stone-300 space-y-0.5">
                   <li>• Предоплата 10 000 ₽ за человека</li>
@@ -1061,14 +1443,25 @@ export default function KareliaRetreatLanding() {
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 order-1 sm:order-2"
+                  disabled={isSubmitting}
+                  className="flex-1 bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 order-1 sm:order-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  Забронировать
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Отправляем...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="h-4 w-4 mr-2" />
+                      Забронировать
+                    </>
+                  )}
                 </Button>
               </div>
             </div>
           </form>
+          )}
         </DialogContent>
       </Dialog>
       {/* Map Modal */}

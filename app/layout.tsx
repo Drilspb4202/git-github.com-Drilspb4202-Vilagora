@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 
 // SEO метаданные
 export const metadata: Metadata = {
+  metadataBase: new URL('https://vilagora-retreat.ru'),
   title: 'Ретрит в Карелии | Отдых на природе в Виллагоре | Экотуризм',
   description: 'Уникальный ретрит в Карелии с проживанием в Виллагоре. Отдых на природе, баня на дровах, чистейшее озеро Сямозеро, карельская кухня, экотуры и восстановление душевных сил.',
   generator: 'NextJS',
@@ -84,10 +85,12 @@ export default function RootLayout({
         {/* Метатеги для Телеграма */}
         <meta name="application-name" content="Ретрит Карелия" />
       </head>
-      <body>
-        <ThemeProvider 
-          attribute="class" 
+      <body suppressHydrationWarning={true}>
+        <ThemeProvider
+          attribute="class"
           defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
         >
           {children}
         </ThemeProvider>

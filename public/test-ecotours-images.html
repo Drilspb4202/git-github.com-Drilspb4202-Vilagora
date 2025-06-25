@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест изображений экотуров</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .image-item {
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #2a2a2a;
+        }
+        .image-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .image-item .info {
+            padding: 10px;
+            font-size: 14px;
+        }
+        .error {
+            border-color: #ff4444;
+            background: #441111;
+        }
+        .success {
+            border-color: #44ff44;
+            background: #114411;
+        }
+        .loading {
+            border-color: #ffaa44;
+            background: #443311;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌲 Тест изображений для блока "Экотуры"</h1>
+    <p>Проверяем доступность всех 10 изображений:</p>
+    
+    <div class="image-grid" id="imageGrid">
+        <!-- Изображения будут добавлены через JavaScript -->
+    </div>
+
+    <script>
+        const images = [
+            { path: "/images/ecotours/mushroom-picking-1.jpg", name: "ecotours/mushroom-picking-1.jpg" },
+            { path: "/images/ecotours/berry-picking.jpg", name: "ecotours/berry-picking.jpg" },
+            { path: "/images/ecotours/fishing.jpg", name: "ecotours/fishing.jpg" },
+            { path: "/images/ecotours/forest-walk.jpg", name: "ecotours/forest-walk.jpg" },
+            { path: "/images/ecotours/karelian-forest-1.jpg", name: "ecotours/karelian-forest-1.jpg" },
+            { path: "/images/ecotours/karelian-forest-2.jpg", name: "ecotours/karelian-forest-2.jpg" },
+            { path: "/images/ecotours/karelian-forest-3.jpg", name: "ecotours/karelian-forest-3.jpg" },
+            { path: "/images/ecotours/mushroom-picking-3.jpg", name: "ecotours/mushroom-picking-3.jpg" },
+            { path: "/images/ecotours/mushroom-picking-4.jpg", name: "ecotours/mushroom-picking-4.jpg" },
+            { path: "/images/ecotours/mushroom-picking.jpg", name: "ecotours/mushroom-picking.jpg" },
+            { path: "/images/syamozero/syamozero-1.jpg", name: "syamozero/syamozero-1.jpg" },
+            { path: "/images/syamozero/syamozero-2.jpg", name: "syamozero/syamozero-2.jpg" },
+            { path: "/images/syamozero/syamozero-3.jpg", name: "syamozero/syamozero-3.jpg" },
+            { path: "/images/syamozero/syamozero-4.jpg", name: "syamozero/syamozero-4.jpg" }
+        ];
+
+        const grid = document.getElementById('imageGrid');
+
+        images.forEach((imageInfo, index) => {
+            const item = document.createElement('div');
+            item.className = 'image-item loading';
+            
+            const img = document.createElement('img');
+            const info = document.createElement('div');
+            info.className = 'info';
+            info.innerHTML = `<strong>${index + 1}. ${imageInfo.name}</strong><br>Путь: ${imageInfo.path}<br>Статус: <span id="status-${index}">Загружается...</span>`;
+            
+            img.onload = function() {
+                item.className = 'image-item success';
+                document.getElementById(`status-${index}`).textContent = '✅ Загружено успешно';
+            };
+            
+            img.onerror = function() {
+                item.className = 'image-item error';
+                document.getElementById(`status-${index}`).textContent = '❌ Ошибка загрузки';
+                img.style.display = 'none';
+            };
+            
+            img.src = imageInfo.path;
+            img.alt = imageInfo.name;
+            
+            item.appendChild(img);
+            item.appendChild(info);
+            grid.appendChild(item);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест ориентации изображений</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .image-test {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        .image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2a2a2a;
+            border-radius: 8px;
+            margin: 10px 0;
+            min-height: 200px;
+        }
+        .portrait {
+            height: 400px;
+            max-height: 60vh;
+        }
+        .landscape {
+            height: 300px;
+        }
+        .square {
+            height: 300px;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 4px;
+        }
+        .portrait img {
+            object-fit: contain;
+        }
+        .landscape img, .square img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+        .info {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🖼️ Тест адаптивной галереи для разных ориентаций</h1>
+    
+    <div class="image-test">
+        <h2>📱 Вертикальные фото (Portrait)</h2>
+        <div class="info">
+            <strong>Настройки:</strong> object-fit: contain, высота: 60vh, показывается полностью
+        </div>
+        <div class="image-container portrait">
+            <img src="/images/accommodation/house-1.jpg" alt="Тест вертикального фото" onload="checkOrientation(this, 'portrait-result')">
+        </div>
+        <div id="portrait-result" class="info"></div>
+    </div>
+
+    <div class="image-test">
+        <h2>🖼️ Горизонтальные фото (Landscape)</h2>
+        <div class="info">
+            <strong>Настройки:</strong> object-fit: cover, фиксированная высота, обрезается по краям
+        </div>
+        <div class="image-container landscape">
+            <img src="/images/accommodation/house-2.jpg" alt="Тест горизонтального фото" onload="checkOrientation(this, 'landscape-result')">
+        </div>
+        <div id="landscape-result" class="info"></div>
+    </div>
+
+    <div class="image-test">
+        <h2>⬜ Квадратные фото (Square)</h2>
+        <div class="info">
+            <strong>Настройки:</strong> object-fit: cover, средняя высота
+        </div>
+        <div class="image-container square">
+            <img src="/images/accommodation/house-3.jpg" alt="Тест квадратного фото" onload="checkOrientation(this, 'square-result')">
+        </div>
+        <div id="square-result" class="info"></div>
+    </div>
+
+    <script>
+        function checkOrientation(img, resultId) {
+            const aspectRatio = img.naturalWidth / img.naturalHeight;
+            let orientation, icon, description;
+            
+            if (aspectRatio > 1.2) {
+                orientation = 'landscape';
+                icon = '🖼️';
+                description = 'Горизонтальное фото';
+            } else if (aspectRatio < 0.8) {
+                orientation = 'portrait';
+                icon = '📱';
+                description = 'Вертикальное фото';
+            } else {
+                orientation = 'square';
+                icon = '⬜';
+                description = 'Квадратное фото';
+            }
+            
+            document.getElementById(resultId).innerHTML = `
+                <strong>Результат:</strong> ${icon} ${description}<br>
+                <strong>Размеры:</strong> ${img.naturalWidth} × ${img.naturalHeight}px<br>
+                <strong>Соотношение:</strong> ${aspectRatio.toFixed(2)}<br>
+                <strong>Ориентация:</strong> ${orientation}
+            `;
+        }
+    </script>
+</body>
+</html>
