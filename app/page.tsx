@@ -36,7 +36,6 @@ import {
   Star,
   ArrowRight,
   Mountain,
-  Check,
   X,
   CreditCard,
   ChevronLeft,
@@ -48,7 +47,6 @@ import { format } from "date-fns"
 import { ru } from "date-fns/locale"
 import { OptimizedImage } from "@/components/optimized-image"
 import { LoadingProgress } from "@/components/loading-progress"
-import { NatureSounds } from "@/components/nature-sounds"
 import { AnimatedNature } from "@/components/animated-nature"
 
 // Импорты удалены
@@ -618,18 +616,6 @@ export default function KareliaRetreatLanding() {
                   </div>
                   <p className="text-stone-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">{pkg.description}</p>
 
-                  <div className="mb-4 sm:mb-6">
-                    <h4 className="text-xs sm:text-sm font-semibold text-forest-400 mb-2 sm:mb-3">Включено:</h4>
-                    <div className="space-y-1 sm:space-y-2">
-                      {pkg.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center text-xs sm:text-sm text-stone-300">
-                          <Check className="h-3 w-3 sm:h-4 sm:w-4 text-forest-400 mr-2 flex-shrink-0" />
-                          {feature}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
                   <Button
                     className={`w-full bg-gradient-to-r ${pkg.gradient} hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white border-0 text-sm sm:text-base py-2 sm:py-3`}
                     onClick={() => openBookingModal(pkg.name)}
@@ -1148,9 +1134,6 @@ export default function KareliaRetreatLanding() {
       </Dialog>
       {/* Animated Nature Effects */}
       <AnimatedNature />
-
-      {/* Nature Sounds Control */}
-      <NatureSounds />
     </div>
   )
 }
