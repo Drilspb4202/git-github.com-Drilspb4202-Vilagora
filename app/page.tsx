@@ -47,8 +47,7 @@ import { useState, useEffect } from "react"
 import { format } from "date-fns"
 import { ru } from "date-fns/locale"
 import { OptimizedImage } from "@/components/optimized-image"
-import { LoadingProgress } from "@/components/loading-progress"
-import { AnimatedNature } from "@/components/animated-nature"
+
 
 // Импорты удалены
 
@@ -112,7 +111,6 @@ export default function KareliaRetreatLanding() {
   }
 
   const [imagesLoaded, setImagesLoaded] = useState(false)
-  const [imageLoadingProgress, setImageLoadingProgress] = useState(0)
 
   useEffect(() => {
     setIsVisible(true)
@@ -143,7 +141,6 @@ export default function KareliaRetreatLanding() {
       const img = new window.Image()
       img.onload = () => {
         loadedCount++
-        setImageLoadingProgress((loadedCount / totalImages) * 100)
         if (loadedCount === totalImages) {
           setImagesLoaded(true)
         }
@@ -1540,8 +1537,7 @@ export default function KareliaRetreatLanding() {
           </div>
         </DialogContent>
       </Dialog>
-      {/* Animated Nature Effects */}
-      <AnimatedNature />
+
     </div>
   )
 }
