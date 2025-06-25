@@ -12,6 +12,9 @@ interface OptimizedImageProps {
   priority?: boolean
   placeholder?: string
   onLoad?: () => void
+  loading?: "lazy" | "eager"
+  quality?: number
+  sizes?: string
 }
 
 export function OptimizedImage({
@@ -23,6 +26,9 @@ export function OptimizedImage({
   priority = false,
   placeholder,
   onLoad,
+  loading = "lazy",
+  quality = 90,
+  sizes = "(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 60vw, 50vw",
 }: OptimizedImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
@@ -50,8 +56,12 @@ export function OptimizedImage({
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      {/* Placeholder/Skeleton */}
-      {!isLoaded && <div className="absolute inset-0 skeleton rounded-lg"></div>}
+      {/* Enhanced Skeleton with shimmer */}
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-gradient-to-r from-forest-800/10 via-forest-700/20 to-forest-800/10 rounded-lg">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
+        </div>
+      )}
 
       {/* Low quality placeholder if provided */}
       {placeholder && !isLoaded && (
@@ -65,13 +75,25 @@ export function OptimizedImage({
         width={width}
         height={height}
         fill={!width && !height}
-        className={`object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        className={`object-cover transition-all duration-500 mobile-image ${
+          isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105"
+        }`}
         priority={priority}
-        quality={90}
+        quality={quality}
+        loading={priority ? "eager" : loading}
         onLoad={handleLoad}
         onError={handleError}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        sizes={sizes}
+        placeholder="blur"
+        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
       />
+
+      {/* Loading indicator */}
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-6 h-6 border-2 border-forest-400 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   )
 }

@@ -580,7 +580,7 @@ export default function KareliaRetreatLanding() {
               <DialogTrigger asChild>
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0 w-full sm:w-auto"
+                  className="bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0 w-full sm:w-auto touch-friendly touch-target"
                 >
                   Забронировать место
                   <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -1232,10 +1232,12 @@ export default function KareliaRetreatLanding() {
                   </Label>
                   <Input
                     id="name"
+                    type="text"
                     placeholder="Ваше имя"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="bg-forest-800/30 border-forest-600/30 text-stone-100 placeholder:text-stone-400 h-9 sm:h-10"
+                    className="bg-forest-800/30 border-forest-600/30 text-stone-100 placeholder:text-stone-400 h-9 sm:h-10 no-zoom touch-friendly"
+                    autoComplete="given-name"
                     required
                   />
                 </div>
@@ -1245,10 +1247,13 @@ export default function KareliaRetreatLanding() {
                   </Label>
                   <Input
                     id="phone"
+                    type="tel"
                     placeholder="+7 (999) 123-45-67"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="bg-forest-800/30 border-forest-600/30 text-stone-100 placeholder:text-stone-400 h-9 sm:h-10"
+                    className="bg-forest-800/30 border-forest-600/30 text-stone-100 placeholder:text-stone-400 h-9 sm:h-10 no-zoom touch-friendly"
+                    autoComplete="tel"
+                    inputMode="tel"
                     required
                   />
                 </div>
@@ -1264,7 +1269,9 @@ export default function KareliaRetreatLanding() {
                   placeholder="your@email.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="bg-forest-800/30 border-forest-600/30 text-stone-100 placeholder:text-stone-400 h-9 sm:h-10"
+                  className="bg-forest-800/30 border-forest-600/30 text-stone-100 placeholder:text-stone-400 h-9 sm:h-10 no-zoom touch-friendly"
+                  autoComplete="email"
+                  inputMode="email"
                   required
                 />
               </div>
@@ -1389,7 +1396,8 @@ export default function KareliaRetreatLanding() {
                   placeholder="Ваши пожелания..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="bg-forest-800/30 border-forest-600/30 text-stone-100 placeholder:text-stone-400 min-h-[60px] resize-none"
+                  className="bg-forest-800/30 border-forest-600/30 text-stone-100 placeholder:text-stone-400 min-h-[60px] resize-none no-zoom touch-friendly mobile-text"
+                  rows={3}
                 />
               </div>
 
@@ -1477,13 +1485,13 @@ export default function KareliaRetreatLanding() {
             <DialogDescription className="text-stone-300 text-sm sm:text-base">
               посёлок Виллагора, Чалнинское сельское поселение, Пряжинский район, Республика Карелия
               <br />
-              <span className="text-forest-400 font-mono text-xs sm:text-sm">Координаты: 61.891373, 33.688970</span>
+              <span className="text-forest-400 font-mono text-xs sm:text-sm">Координаты: 61.89101283682342, 33.68979055651442</span>
             </DialogDescription>
           </DialogHeader>
 
           <div className="relative h-64 sm:h-96 bg-forest-800/20">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2134.8!2d33.688970!3d61.891373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNjHCsDUzJzI5LjAiTiAzM8KwNDEnMjAuMyJF!5e0!3m2!1sru!2sru!4v1640000000000!5m2!1sru!2sru"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2134.8!2d33.68979055651442!3d61.89101283682342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNjHCsDUzJzI3LjYiTiAzM8KwNDEnMjMuMiJF!5e0!3m2!1sru!2sru!4v1640000000000!5m2!1sru!2sru"
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -1495,22 +1503,29 @@ export default function KareliaRetreatLanding() {
           </div>
 
           <div className="p-4 sm:p-6 pt-4">
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <Button
-                className="flex-1 bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white border-0 text-sm sm:text-base"
-                onClick={() => window.open(`https://maps.google.com/?q=61.891373,33.688970`, "_blank")}
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white border-0 text-sm sm:text-base touch-friendly"
+                onClick={() => window.open(`https://yandex.ru/maps?whatshere%5Bpoint%5D=33.68979055651442%2C61.89101283682342&whatshere%5Bzoom%5D=18.245955&ll=33.68979055651442%2C61.89087251654484&z=18.245955`, "_blank")}
               >
                 <MapPin className="h-4 w-4 mr-2" />
-                Открыть в Google Maps
+                Яндекс.Карты
               </Button>
               <Button
-                className="flex-1 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white border-0 text-sm sm:text-base"
+                className="bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white border-0 text-sm sm:text-base touch-friendly"
+                onClick={() => window.open(`https://maps.google.com/?q=61.89101283682342,33.68979055651442`, "_blank")}
+              >
+                <MapPin className="h-4 w-4 mr-2" />
+                Google Maps
+              </Button>
+              <Button
+                className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white border-0 text-sm sm:text-base touch-friendly"
                 onClick={() => {
-                  navigator.clipboard.writeText("61.891373, 33.688970")
+                  navigator.clipboard.writeText("61.89101283682342, 33.68979055651442")
                   // Можно добавить уведомление о копировании
                 }}
               >
-                📋 Скопировать координаты
+                📋 Координаты
               </Button>
             </div>
 

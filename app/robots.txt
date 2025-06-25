@@ -1,6 +1,0 @@
-# Allow all robots full access
-User-agent: *
-Allow: /
-
-# Sitemap
-Sitemap: https://www.villagora.ru/sitemap.xml
