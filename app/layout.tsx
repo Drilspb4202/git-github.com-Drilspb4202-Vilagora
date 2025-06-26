@@ -6,10 +6,10 @@ import { ThemeProvider } from '@/components/theme-provider'
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.villagora.ru'),
   title: {
-    default: 'Отдых Карелия Дом Ретрит | Виллагора | Аренда дома у озера Сямозеро',
-    template: '%s | Отдых Карелия Дом Ретрит'
+    default: 'Камерный ретрит в Карелии | Виллагора | Отдых на природе у озера Сямозеро',
+    template: '%s | Камерный ретрит в Карелии'
   },
-  description: 'Отдых в Карелии в уютном доме-ретрите Виллагора у озера Сямозеро. Аренда загородного дома с баней на дровах, карельской кухней и экотурами. Идеальное место для восстановления сил на природе. Бронирование от 13,000₽ за человека.',
+  description: 'Камерный ретрит в сердце Карелии - перезагрузка души в окружении леса. Насыщенный отдых на природе в загородном доме Виллагора у озера Сямозеро с баней на дровах и экотурами. Бронирование от 13,000₽ за человека.',
   generator: 'Next.js',
   applicationName: 'Ретрит Карелия',
   referrer: 'origin-when-cross-origin',
@@ -51,9 +51,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Отдых Карелия Дом Ретрит | Виллагора у озера Сямозеро',
-    description: 'Отдых в Карелии в загородном доме-ретрите Виллагора. Аренда уютного дома у озера с баней на дровах, карельской кухней и экотурами. Идеальное место для восстановления сил на природе. Бронирование от 13,000₽.',
-    siteName: 'Отдых Карелия Дом Ретрит',
+    title: 'Камерный ретрит в Карелии | Виллагора у озера Сямозеро',
+    description: 'Камерный ретрит в сердце Карелии - перезагрузка души в окружении леса. Насыщенный отдых на природе в загородном доме Виллагора с баней на дровах и экотурами. Бронирование от 13,000₽.',
+    siteName: 'Камерный ретрит в Карелии',
     images: [{
       url: '/images/hero/hero.jpg',
       width: 1200,
@@ -71,8 +71,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Отдых Карелия Дом Ретрит | Виллагора у озера Сямозеро',
-    description: 'Отдых в Карелии в загородном доме-ретрите Виллагора. Аренда дома у озера с баней на дровах и экотурами. Бронирование от 13,000₽.',
+    title: 'Камерный ретрит в Карелии | Виллагора у озера Сямозеро',
+    description: 'Камерный ретрит в сердце Карелии - перезагрузка души в окружении леса. Насыщенный отдых на природе с баней на дровах. Бронирование от 13,000₽.',
     images: ['/images/hero/hero.jpg'],
     creator: '@RadmilaYakovleva',
     site: '@VillagoraRetreat',
@@ -115,30 +115,30 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
 
         {/* Дополнительные мета-теги для корректного отображения при поделении ссылкой */}
-        <meta property="og:title" content="Отдых Карелия Дом Ретрит | Виллагора" />
-        <meta property="og:description" content="Отдых в Карелии в загородном доме-ретрите Виллагора у озера Сямозеро. Аренда дома с баней на дровах, карельской кухней и экотурами для восстановления сил на природе." />
+        <meta property="og:title" content="Камерный ретрит в Карелии | Виллагора" />
+        <meta property="og:description" content="Камерный ретрит в сердце Карелии - перезагрузка души в окружении леса. Насыщенный отдых на природе в загородном доме Виллагора у озера Сямозеро с баней на дровах и экотурами." />
         <meta property="og:image" content={`https://www.villagora.ru/images/hero/hero.jpg?v=${Date.now()}`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Отдых в Карелии - дом ретрит у озера Сямозеро" />
+        <meta property="og:image:alt" content="Камерный ретрит в Карелии - отдых на природе у озера Сямозеро" />
         <meta property="og:url" content="https://www.villagora.ru" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Отдых Карелия Дом Ретрит" />
+        <meta property="og:site_name" content="Камерный ретрит в Карелии" />
         <meta property="og:locale" content="ru_RU" />
 
         {/* Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Отдых Карелия Дом Ретрит | Виллагора" />
-        <meta name="twitter:description" content="Отдых в Карелии в загородном доме-ретрите Виллагора у озера Сямозеро. Аренда дома с баней на дровах и экотурами." />
+        <meta name="twitter:title" content="Камерный ретрит в Карелии | Виллагора" />
+        <meta name="twitter:description" content="Камерный ретрит в сердце Карелии - перезагрузка души в окружении леса. Насыщенный отдых на природе с баней на дровах." />
         <meta name="twitter:image" content={`https://www.villagora.ru/images/hero/hero.jpg?v=${Date.now()}`} />
-        <meta name="twitter:image:alt" content="Отдых в Карелии - дом ретрит у озера" />
+        <meta name="twitter:image:alt" content="Камерный ретрит в Карелии - отдых на природе" />
         <meta name="twitter:creator" content="@RadmilaYakovleva" />
         <meta name="twitter:site" content="@VillagoraRetreat" />
 
         {/* Дополнительные SEO метатеги */}
         <meta name="author" content="Радмила Яковлева" />
-        <meta name="publisher" content="Отдых Карелия Дом Ретрит" />
-        <meta name="application-name" content="Отдых Карелия Дом Ретрит" />
+        <meta name="publisher" content="Камерный ретрит в Карелии" />
+        <meta name="application-name" content="Камерный ретрит в Карелии" />
         <meta name="msapplication-TileColor" content="#1a2e05" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
 
@@ -162,8 +162,8 @@ export default function RootLayout({
         <meta name="HandheldFriendly" content="True" />
         <meta name="MobileOptimized" content="320" />
         <meta name="audience" content="all" />
-        <meta name="pagename" content="Отдых Карелия Дом Ретрит" />
-        <meta name="pagetopic" content="отдых карелия дом ретрит" />
+        <meta name="pagename" content="Камерный ретрит в Карелии" />
+        <meta name="pagetopic" content="камерный ретрит карелия отдых на природе" />
         <meta name="page-type" content="Туристический сайт" />
 
         {/* Дополнительные метатеги для поисковых систем */}
@@ -181,13 +181,13 @@ export default function RootLayout({
 
         {/* Метатеги для социальных сетей */}
         <meta name="vk:image" content="https://www.villagora.ru/images/hero/hero.jpg" />
-        <meta name="vk:title" content="Отдых Карелия Дом Ретрит | Виллагора" />
-        <meta name="vk:description" content="Отдых в Карелии в доме-ретрите Виллагора у озера Сямозеро" />
+        <meta name="vk:title" content="Камерный ретрит в Карелии | Виллагора" />
+        <meta name="vk:description" content="Камерный ретрит в сердце Карелии - перезагрузка души в окружении леса" />
 
         {/* Метатеги для мессенджеров */}
         <meta name="telegram:channel" content="@RadmilaYakovleva" />
-        <meta name="whatsapp:title" content="Отдых Карелия Дом Ретрит" />
-        <meta name="whatsapp:description" content="Отдых в Карелии в доме-ретрите Виллагора" />
+        <meta name="whatsapp:title" content="Камерный ретрит в Карелии" />
+        <meta name="whatsapp:description" content="Камерный ретрит в сердце Карелии - перезагрузка души в окружении леса" />
 
         {/* Дополнительные локальные метатеги */}
         <meta name="locality" content="Виллагора" />
@@ -195,7 +195,7 @@ export default function RootLayout({
         <meta name="country" content="Россия" />
         <meta name="postal-code" content="186350" />
         <meta name="street-address" content="деревня Виллагора" />
-        <meta name="organization" content="Отдых Карелия Дом Ретрит" />
+        <meta name="organization" content="Камерный ретрит в Карелии" />
         <meta name="contact" content="info@villagora.ru" />
 
         {/* Геолокация для локального SEO */}

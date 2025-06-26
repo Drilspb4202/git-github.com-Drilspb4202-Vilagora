@@ -557,17 +557,17 @@ export default function KareliaRetreatLanding() {
             itemProp="name"
           >
             <span className="bg-gradient-to-r from-forest-200 via-forest-300 to-amber-300 bg-clip-text text-transparent animate-pulse drop-shadow-2xl">
-              Отдых Карелия
+              Камерный ретрит
             </span>
             <br />
-            <span className="text-white drop-shadow-2xl">Дом Ретрит Виллагора</span>
+            <span className="text-white drop-shadow-2xl">в сердце Карелии</span>
           </h1>
 
           <p
             className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 text-stone-100 font-light max-w-4xl mx-auto leading-relaxed drop-shadow-lg px-4"
             itemProp="description"
           >
-            Отдых в Карелии в загородном доме у озера Сямозеро с баней на дровах и экотурами
+            Перезагрузка души в окружении леса, насыщенный отдых на природе Карелии
           </p>
 
           <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress" className="hidden">
@@ -634,12 +634,12 @@ export default function KareliaRetreatLanding() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-stone-100 to-stone-300 bg-clip-text text-transparent">
-              Отдых в Карелии в доме Виллагора
+              Время услышать себя
             </h2>
             <p className="text-lg sm:text-xl text-stone-300 mb-8 sm:mb-12 leading-relaxed max-w-4xl mx-auto px-4">
-              Ты чувствуешь, что пора перезагрузиться? Отпустить суету и, наконец, услышать себя? Приглашаю тебя на
-              отдых в Карелии в загородный дом Виллагора — живописной деревне на берегу озера Сямозеро, в окружении карельских
-              лесов и озёр. Идеальное место для ретрита и восстановления сил на природе.
+              Ты чувствуешь, что пора перезагрузиться? Отпустить суету и, наконец, услышать себя?
+              <br />
+              Приглашаю тебя на <span className="font-semibold text-amber-300">КАМЕРНЫЙ РЕТРИТ В ЗАГОРОДНЫЙ ДОМ ВИЛЛАГОРЕ</span> — живописной деревне на берегу ламбушки, в окружении карельских лесов и озёр.
             </p>
           </div>
 
