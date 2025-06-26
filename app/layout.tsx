@@ -6,19 +6,28 @@ import { ThemeProvider } from '@/components/theme-provider'
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.villagora.ru'),
   title: {
-    default: 'Карелия ретрит отдых | Виллагора | Отдых на природе',
-    template: '%s | Ретрит Карелия'
+    default: 'Отдых Карелия Дом Ретрит | Виллагора | Аренда дома у озера Сямозеро',
+    template: '%s | Отдых Карелия Дом Ретрит'
   },
-  description: 'Уникальный ретрит в Карелии с проживанием в Виллагоре. Отдых на природе, баня на дровах, чистейшее озеро Сямозеро, карельская кухня, экотуры и восстановление душевных сил. Бронирование от 13,000₽ за человека.',
+  description: 'Отдых в Карелии в уютном доме-ретрите Виллагора у озера Сямозеро. Аренда загородного дома с баней на дровах, карельской кухней и экотурами. Идеальное место для восстановления сил на природе. Бронирование от 13,000₽ за человека.',
   generator: 'Next.js',
   applicationName: 'Ретрит Карелия',
   referrer: 'origin-when-cross-origin',
   keywords: [
-    'ретрит в Карелии', 'отдых в Карелии', 'Виллагора', 'Сямозеро', 'карельская природа',
+    // Основные целевые запросы
+    'отдых карелия', 'дом ретрит', 'ретрит карелия', 'отдых карелия дом', 'карелия дом отдых',
+    'ретрит в карелии', 'отдых в карелии', 'дом для отдыха карелия', 'карельский ретрит',
+
+    // Дополнительные ключевые слова
+    'Виллагора', 'Сямозеро', 'карельская природа', 'загородный дом карелия',
     'экотуризм', 'отдых на природе', 'баня на дровах', 'карельская кухня', 'медитация в лесу',
     'перезагрузка', 'восстановление сил', 'тишина', 'лесные прогулки', 'сбор ягод',
-    'рыбалка в Карелии', 'экотуры', 'ароматерапия', 'природа', 'отдых летом', 'бронирование',
-    'турбаза Карелия', 'загородный отдых', 'эко отель', 'wellness retreat', 'digital detox'
+    'рыбалка в карелии', 'экотуры', 'ароматерапия', 'природа', 'отдых летом', 'бронирование',
+    'турбаза карелия', 'загородный отдых', 'эко отель', 'wellness retreat', 'digital detox',
+
+    // Локальные запросы
+    'отдых на сямозере', 'дом у озера карелия', 'аренда дома карелия', 'коттедж карелия',
+    'отдых с баней карелия', 'эко дом карелия', 'retreat house karelia', 'карелия отпуск'
   ],
   authors: [{ name: 'Радмила Яковлева', url: 'https://t.me/RadmilaYakovleva' }],
   creator: 'Радмила Яковлева',
@@ -42,9 +51,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Ретрит в Карелии | Отдых на природе в Виллагоре',
-    description: 'Камерный ретрит в Виллагоре. Перезагрузка души в окружении хвойных лесов Карелии. Уникальный отдых на природе с баней, озером и эко-турами. Бронирование от 13,000₽.',
-    siteName: 'Ретрит Карелия',
+    title: 'Отдых Карелия Дом Ретрит | Виллагора у озера Сямозеро',
+    description: 'Отдых в Карелии в загородном доме-ретрите Виллагора. Аренда уютного дома у озера с баней на дровах, карельской кухней и экотурами. Идеальное место для восстановления сил на природе. Бронирование от 13,000₽.',
+    siteName: 'Отдых Карелия Дом Ретрит',
     images: [{
       url: '/images/hero/hero.jpg',
       width: 1200,
@@ -62,8 +71,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ретрит в Карелии | Отдых на природе в Виллагоре',
-    description: 'Камерный ретрит в Виллагоре. Перезагрузка души в окружении хвойных лесов Карелии. Бронирование от 13,000₽.',
+    title: 'Отдых Карелия Дом Ретрит | Виллагора у озера Сямозеро',
+    description: 'Отдых в Карелии в загородном доме-ретрите Виллагора. Аренда дома у озера с баней на дровах и экотурами. Бронирование от 13,000₽.',
     images: ['/images/hero/hero.jpg'],
     creator: '@RadmilaYakovleva',
     site: '@VillagoraRetreat',
@@ -106,32 +115,88 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
 
         {/* Дополнительные мета-теги для корректного отображения при поделении ссылкой */}
-        <meta property="og:title" content="Карелия ретрит отдых | Виллагора" />
-        <meta property="og:description" content="Камерный ретрит в Виллагоре. Перезагрузка души в окружении хвойных лесов Карелии. Уникальный отдых на природе с баней, озером и эко-турами." />
+        <meta property="og:title" content="Отдых Карелия Дом Ретрит | Виллагора" />
+        <meta property="og:description" content="Отдых в Карелии в загородном доме-ретрите Виллагора у озера Сямозеро. Аренда дома с баней на дровах, карельской кухней и экотурами для восстановления сил на природе." />
         <meta property="og:image" content={`https://www.villagora.ru/images/hero/hero.jpg?v=${Date.now()}`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Ретрит в Карелии - отдых на природе" />
+        <meta property="og:image:alt" content="Отдых в Карелии - дом ретрит у озера Сямозеро" />
         <meta property="og:url" content="https://www.villagora.ru" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Ретрит Карелия" />
+        <meta property="og:site_name" content="Отдых Карелия Дом Ретрит" />
         <meta property="og:locale" content="ru_RU" />
 
         {/* Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Карелия ретрит отдых | Виллагора" />
-        <meta name="twitter:description" content="Камерный ретрит в Виллагоре. Перезагрузка души в окружении хвойных лесов Карелии." />
+        <meta name="twitter:title" content="Отдых Карелия Дом Ретрит | Виллагора" />
+        <meta name="twitter:description" content="Отдых в Карелии в загородном доме-ретрите Виллагора у озера Сямозеро. Аренда дома с баней на дровах и экотурами." />
         <meta name="twitter:image" content={`https://www.villagora.ru/images/hero/hero.jpg?v=${Date.now()}`} />
-        <meta name="twitter:image:alt" content="Ретрит в Карелии - отдых на природе" />
+        <meta name="twitter:image:alt" content="Отдых в Карелии - дом ретрит у озера" />
         <meta name="twitter:creator" content="@RadmilaYakovleva" />
         <meta name="twitter:site" content="@VillagoraRetreat" />
 
         {/* Дополнительные SEO метатеги */}
         <meta name="author" content="Радмила Яковлева" />
-        <meta name="publisher" content="Ретрит Карелия" />
-        <meta name="application-name" content="Ретрит Карелия" />
+        <meta name="publisher" content="Отдых Карелия Дом Ретрит" />
+        <meta name="application-name" content="Отдых Карелия Дом Ретрит" />
         <meta name="msapplication-TileColor" content="#1a2e05" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
+
+        {/* Дополнительные метатеги для целевых запросов */}
+        <meta name="subject" content="Отдых в Карелии, аренда дома, ретрит на природе" />
+        <meta name="topic" content="Отдых Карелия дом ретрит" />
+        <meta name="summary" content="Отдых в Карелии в доме-ретрите Виллагора у озера Сямозеро с баней и экотурами" />
+        <meta name="classification" content="Туризм, отдых, ретрит, Карелия" />
+        <meta name="designer" content="Радмила Яковлева" />
+        <meta name="owner" content="Радмила Яковлева" />
+        <meta name="url" content="https://www.villagora.ru" />
+        <meta name="identifier-URL" content="https://www.villagora.ru" />
+        <meta name="directory" content="submission" />
+        <meta name="category" content="Туризм и отдых" />
+        <meta name="coverage" content="Worldwide" />
+        <meta name="distribution" content="Global" />
+        <meta name="rating" content="General" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="subtitle" content="Загородный дом для отдыха в Карелии" />
+        <meta name="target" content="all" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="audience" content="all" />
+        <meta name="pagename" content="Отдых Карелия Дом Ретрит" />
+        <meta name="pagetopic" content="отдых карелия дом ретрит" />
+        <meta name="page-type" content="Туристический сайт" />
+
+        {/* Дополнительные метатеги для поисковых систем */}
+        <meta name="language" content="Russian" />
+        <meta name="content-language" content="ru" />
+        <meta name="reply-to" content="info@villagora.ru" />
+        <meta name="expires" content="never" />
+        <meta name="cache-control" content="public" />
+        <meta name="pragma" content="cache" />
+        <meta name="resource-type" content="document" />
+        <meta name="document-type" content="Public" />
+        <meta name="document-rating" content="Safe for Kids" />
+        <meta name="document-distribution" content="Global" />
+        <meta name="document-classification" content="Business" />
+
+        {/* Метатеги для социальных сетей */}
+        <meta name="vk:image" content="https://www.villagora.ru/images/hero/hero.jpg" />
+        <meta name="vk:title" content="Отдых Карелия Дом Ретрит | Виллагора" />
+        <meta name="vk:description" content="Отдых в Карелии в доме-ретрите Виллагора у озера Сямозеро" />
+
+        {/* Метатеги для мессенджеров */}
+        <meta name="telegram:channel" content="@RadmilaYakovleva" />
+        <meta name="whatsapp:title" content="Отдых Карелия Дом Ретрит" />
+        <meta name="whatsapp:description" content="Отдых в Карелии в доме-ретрите Виллагора" />
+
+        {/* Дополнительные локальные метатеги */}
+        <meta name="locality" content="Виллагора" />
+        <meta name="region" content="Карелия" />
+        <meta name="country" content="Россия" />
+        <meta name="postal-code" content="186350" />
+        <meta name="street-address" content="деревня Виллагора" />
+        <meta name="organization" content="Отдых Карелия Дом Ретрит" />
+        <meta name="contact" content="info@villagora.ru" />
 
         {/* Геолокация для локального SEO */}
         <meta name="geo.region" content="RU-KR" />
@@ -155,70 +220,146 @@ export default function RootLayout({
         <link rel="prefetch" as="image" href="/images/wellness/sauna-1.jpg" />
         <link rel="prefetch" as="image" href="/images/ecotours/karelian-forest-1.jpg" />
 
+        {/* Yandex.Metrika counter */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+              m[i].l=1*new Date();
+              for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+              k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+              (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+              ym(103023290, "init", {
+                   clickmap:true,
+                   trackLinks:true,
+                   accurateTrackBounce:true,
+                   webvisor:true,
+                   ecommerce:"dataLayer"
+              });
+            `
+          }}
+        />
+        <noscript>
+          <div>
+            <img src="https://mc.yandex.ru/watch/103023290" style={{position:'absolute', left:'-9999px'}} alt="" />
+          </div>
+        </noscript>
+
         {/* Структурированные данные JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "TouristAttraction",
-              "name": "Ретрит в Карелии - Виллагора",
-              "description": "Уникальный ретрит в Карелии с отдыхом на природе, баней на дровах и экотурами. Проживание в уютном доме у озера Сямозеро.",
-              "url": "https://www.villagora.ru",
-              "image": [
-                "https://www.villagora.ru/images/hero/hero.jpg",
-                "https://www.villagora.ru/images/syamozero/syamozero-1.jpg",
-                "https://www.villagora.ru/images/accommodation/house-1.jpg"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "Карелия",
-                "addressCountry": "RU"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 61.89101283682342,
-                "longitude": 33.68979055651442
-              },
-              "offers": {
-                "@type": "Offer",
-                "priceCurrency": "RUB",
-                "price": "13000",
-                "priceSpecification": {
-                  "@type": "PriceSpecification",
-                  "price": "13000",
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "TouristAttraction",
+                "name": "Отдых в Карелии - Дом Ретрит Виллагора",
+                "alternateName": "Виллагора Ретрит",
+                "description": "Отдых в Карелии в загородном доме-ретрите Виллагора у озера Сямозеро. Аренда уютного дома с баней на дровах, карельской кухней и экотурами для восстановления сил на природе.",
+                "url": "https://www.villagora.ru",
+                "sameAs": [
+                  "https://t.me/RadmilaYakovleva"
+                ],
+                "image": [
+                  "https://www.villagora.ru/images/hero/hero.jpg",
+                  "https://www.villagora.ru/images/syamozero/syamozero-1.jpg",
+                  "https://www.villagora.ru/images/accommodation/house-1.jpg"
+                ],
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Виллагора",
+                  "addressRegion": "Республика Карелия",
+                  "addressCountry": "RU",
+                  "postalCode": "186350"
+                },
+                "geo": {
+                  "@type": "GeoCoordinates",
+                  "latitude": 61.89101283682342,
+                  "longitude": 33.68979055651442
+                },
+                "offers": {
+                  "@type": "Offer",
                   "priceCurrency": "RUB",
-                  "unitText": "за человека в день"
-                }
+                  "price": "13000",
+                  "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "price": "13000",
+                    "priceCurrency": "RUB",
+                    "unitText": "за человека в день"
+                  },
+                  "availability": "https://schema.org/InStock",
+                  "validFrom": "2024-01-01",
+                  "category": "Отдых и туризм"
+                },
+                "amenityFeature": [
+                  {
+                    "@type": "LocationFeatureSpecification",
+                    "name": "Баня на дровах",
+                    "value": true
+                  },
+                  {
+                    "@type": "LocationFeatureSpecification",
+                    "name": "Проживание в доме",
+                    "value": true
+                  },
+                  {
+                    "@type": "LocationFeatureSpecification",
+                    "name": "Карельская кухня",
+                    "value": true
+                  },
+                  {
+                    "@type": "LocationFeatureSpecification",
+                    "name": "Экотуры",
+                    "value": true
+                  },
+                  {
+                    "@type": "LocationFeatureSpecification",
+                    "name": "Ароматерапия",
+                    "value": true
+                  },
+                  {
+                    "@type": "LocationFeatureSpecification",
+                    "name": "Озеро Сямозеро",
+                    "value": true
+                  }
+                ],
+                "provider": {
+                  "@type": "Person",
+                  "name": "Радмила Яковлева",
+                  "url": "https://t.me/RadmilaYakovleva"
+                },
+                "keywords": "отдых карелия, дом ретрит, карелия отдых, загородный дом, баня на дровах, озеро сямозеро"
               },
-              "amenityFeature": [
-                {
-                  "@type": "LocationFeatureSpecification",
-                  "name": "Баня на дровах"
+              {
+                "@context": "https://schema.org",
+                "@type": "LodgingBusiness",
+                "name": "Дом Ретрит Виллагора",
+                "description": "Загородный дом для отдыха в Карелии у озера Сямозеро с баней на дровах",
+                "url": "https://www.villagora.ru",
+                "telephone": "+7-XXX-XXX-XXXX",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Виллагора",
+                  "addressRegion": "Республика Карелия",
+                  "addressCountry": "RU"
                 },
-                {
-                  "@type": "LocationFeatureSpecification",
-                  "name": "Проживание"
+                "geo": {
+                  "@type": "GeoCoordinates",
+                  "latitude": 61.89101283682342,
+                  "longitude": 33.68979055651442
                 },
-                {
-                  "@type": "LocationFeatureSpecification",
-                  "name": "Питание"
-                },
-                {
-                  "@type": "LocationFeatureSpecification",
-                  "name": "Экотуры"
-                },
-                {
-                  "@type": "LocationFeatureSpecification",
-                  "name": "Ароматерапия"
-                }
-              ],
-              "provider": {
-                "@type": "Person",
-                "name": "Радмила Яковлева",
-                "url": "https://t.me/RadmilaYakovleva"
+                "priceRange": "13000-20000 RUB",
+                "amenityFeature": [
+                  "Баня на дровах",
+                  "Питание включено",
+                  "Экотуры",
+                  "Ароматерапия",
+                  "Доступ к озеру"
+                ]
               }
-            })
+            ])
           }}
         />
       </head>

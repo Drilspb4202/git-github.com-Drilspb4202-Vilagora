@@ -47,6 +47,15 @@ import { useState, useEffect } from "react"
 import { format } from "date-fns"
 import { ru } from "date-fns/locale"
 import { OptimizedImage } from "@/components/optimized-image"
+import {
+  trackBookingFormOpened,
+  trackBookingFormSubmitted,
+  trackPhoneClick,
+  trackTelegramClick,
+  trackMapOpened,
+  trackGalleryViewed,
+  initYandexMetrikaTracking
+} from "@/lib/yandex-metrika"
 
 
 // Импорты удалены
@@ -131,6 +140,9 @@ export default function KareliaRetreatLanding() {
       const img = new window.Image()
       img.src = src
     })
+
+    // Инициализация Яндекс.Метрики трекинга
+    initYandexMetrikaTracking()
   }, [])
 
   const preloadImageBatch = (imageUrls: string[]) => {
@@ -382,6 +394,15 @@ export default function KareliaRetreatLanding() {
       const success = await sendToTelegram(bookingData)
 
       if (success) {
+        // Трекинг успешной отправки формы
+        trackBookingFormSubmitted({
+          package: selectedPackage,
+          guests: parseInt(formData.guests) || 0,
+          checkIn: checkInDate?.toISOString(),
+          checkOut: checkOutDate?.toISOString(),
+          totalPrice: calculateTotalPrice()
+        })
+
         setShowSuccessMessage(true)
         // Очистить форму
         setFormData({
@@ -536,17 +557,17 @@ export default function KareliaRetreatLanding() {
             itemProp="name"
           >
             <span className="bg-gradient-to-r from-forest-200 via-forest-300 to-amber-300 bg-clip-text text-transparent animate-pulse drop-shadow-2xl">
-              Камерный ретрит
+              Отдых Карелия
             </span>
             <br />
-            <span className="text-white drop-shadow-2xl">в сердце Карелии</span>
+            <span className="text-white drop-shadow-2xl">Дом Ретрит Виллагора</span>
           </h1>
 
           <p
             className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 text-stone-100 font-light max-w-4xl mx-auto leading-relaxed drop-shadow-lg px-4"
             itemProp="description"
           >
-            Перезагрузка души в окружении хвойных лесов, отдых на природе Карелии
+            Отдых в Карелии в загородном доме у озера Сямозеро с баней на дровах и экотурами
           </p>
 
           <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress" className="hidden">
@@ -557,7 +578,10 @@ export default function KareliaRetreatLanding() {
           <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8 sm:mb-12 px-4">
             <Badge
               className="text-sm sm:text-lg py-2 px-4 sm:py-3 sm:px-6 bg-black/30 backdrop-blur-md border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105 text-white shadow-xl cursor-pointer animate-float-nature"
-              onClick={() => setIsMapOpen(true)}
+              onClick={() => {
+                setIsMapOpen(true)
+                trackMapOpened()
+              }}
             >
               <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               Деревня Виллагора
@@ -578,6 +602,7 @@ export default function KareliaRetreatLanding() {
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0 w-full sm:w-auto touch-friendly touch-target"
+                  onClick={() => trackBookingFormOpened()}
                 >
                   Забронировать место
                   <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -609,12 +634,12 @@ export default function KareliaRetreatLanding() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-stone-100 to-stone-300 bg-clip-text text-transparent">
-              Время услышать себя
+              Отдых в Карелии в доме Виллагора
             </h2>
             <p className="text-lg sm:text-xl text-stone-300 mb-8 sm:mb-12 leading-relaxed max-w-4xl mx-auto px-4">
               Ты чувствуешь, что пора перезагрузиться? Отпустить суету и, наконец, услышать себя? Приглашаю тебя на
-              КАМЕРНЫЙ РЕТРИТ В ЗАГОРОДНЫЙ ДОМ ВИЛЛАГОРЕ — живописной деревне на берегу ламбушки, в окружении карельских
-              лесов и озёр.
+              отдых в Карелии в загородный дом Виллагора — живописной деревне на берегу озера Сямозеро, в окружении карельских
+              лесов и озёр. Идеальное место для ретрита и восстановления сил на природе.
             </p>
           </div>
 
@@ -899,7 +924,10 @@ export default function KareliaRetreatLanding() {
 
             <Card
               className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl cursor-pointer"
-              onClick={() => window.open("https://t.me/RadmilaYakovleva")}
+              onClick={() => {
+                trackTelegramClick()
+                window.open("https://t.me/RadmilaYakovleva")
+              }}
             >
               <CardHeader>
                 <div className="flex items-center justify-center mb-4 sm:mb-6">
@@ -947,7 +975,10 @@ export default function KareliaRetreatLanding() {
             <Button
               size="lg"
               className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white text-lg sm:text-xl px-8 sm:px-12 py-3 sm:py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0 w-full sm:w-auto"
-              onClick={() => window.open("https://t.me/RadmilaYakovleva")}
+              onClick={() => {
+                trackTelegramClick()
+                window.open("https://t.me/RadmilaYakovleva")
+              }}
             >
               <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
               Написать в Telegram
