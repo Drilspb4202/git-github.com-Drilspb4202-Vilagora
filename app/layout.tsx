@@ -210,9 +210,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
 
-        {/* Preload критических изображений для мгновенной загрузки */}
+        {/* Preload только критических изображений, которые используются сразу */}
         <link rel="preload" as="image" href="/images/hero/hero.jpg" />
-        <link rel="preload" as="image" href="/images/gallery/hero-landscape.jpg" />
         <link rel="preload" as="image" href="/images/syamozero/syamozero-1.jpg" />
         <link rel="preload" as="image" href="/images/accommodation/house-1.jpg" />
 
