@@ -127,7 +127,7 @@ export function SeoHead({
               "name": "Отдых Карелия Дом Ретрит - Виллагора",
               "description": description,
               "url": url,
-              "telephone": "+7-XXX-XXX-XXXX",
+              "telephone": "+7 921 646 5545",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Виллагора",

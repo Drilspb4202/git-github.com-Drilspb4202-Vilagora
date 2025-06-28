@@ -17,7 +17,7 @@ export const russianSeoConfig = {
         name: 'Отдых Карелия Дом Ретрит',
         description: 'Отдых в Карелии в доме-ретрите Виллагора',
         address: 'деревня Виллагора, Республика Карелия',
-        phone: '+7-XXX-XXX-XXXX',
+        phone: '+7 921 646 5545',
         url: 'https://www.villagora.ru'
       }
     }

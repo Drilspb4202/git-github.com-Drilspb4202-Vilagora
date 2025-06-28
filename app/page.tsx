@@ -906,7 +906,7 @@ export default function KareliaRetreatLanding() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
             <Card
               className="group bg-forest-900/30 backdrop-blur-sm border-forest-700/30 hover:bg-forest-800/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-2xl cursor-pointer"
-              onClick={() => window.open("tel:89522010778")}
+              onClick={() => window.open("tel:+79216465545")}
             >
               <CardHeader>
                 <div className="flex items-center justify-center mb-4 sm:mb-6">
@@ -917,7 +917,7 @@ export default function KareliaRetreatLanding() {
                 <CardTitle className="text-xl sm:text-2xl text-stone-100">Позвони</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-xl sm:text-2xl font-bold text-forest-400 mb-2">8 952 201 07 78</p>
+                <p className="text-xl sm:text-2xl font-bold text-forest-400 mb-2">+7 921 646 5545</p>
                 <p className="text-stone-300 text-sm sm:text-base">Детали и бронь по телефону</p>
               </CardContent>
             </Card>
@@ -966,7 +966,7 @@ export default function KareliaRetreatLanding() {
             <Button
               size="lg"
               className="bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-500 hover:to-forest-600 text-white text-lg sm:text-xl px-8 sm:px-12 py-3 sm:py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0 w-full sm:w-auto"
-              onClick={() => window.open("tel:89522010778")}
+              onClick={() => window.open("tel:+79216465545")}
             >
               <Phone className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
               Позвонить сейчас
