@@ -692,7 +692,7 @@ export default function KareliaRetreatLanding() {
             itemProp="description"
             content="Уникальный ретрит на природе в Карелии с экскурсиями, баней и отдыхом на озере Сямозеро"
           />
-          <meta itemProp="telephone" content="+78952201078" />
+          <meta itemProp="telephone" content="+79216465545" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {features.map((feature, index) => (
