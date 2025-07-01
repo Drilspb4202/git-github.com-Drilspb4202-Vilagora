@@ -6,11 +6,6 @@ const nextConfig = {
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
   
-  // Исключаем несовместимые с export функции
-  async generateStaticParams() {
-    return []
-  },
-  
   // Оптимизация изображений для статического экспорта
   images: {
     unoptimized: true, // Отключаем оптимизацию для статического экспорта
@@ -31,46 +26,8 @@ const nextConfig = {
   // Сжатие
   compress: true,
 
-  // PWA настройки
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-        ],
-      },
-      {
-        source: '/images/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/(.*).webp',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ]
-  },
+  // PWA настройки - отключены для статического экспорта
+  // async headers() { ... } - несовместимо с export
 
   // Оптимизация бандла
   webpack: (config, { dev, isServer }) => {
@@ -91,15 +48,8 @@ const nextConfig = {
     return config
   },
 
-  // Настройки для мобильных устройств
-  async rewrites() {
-    return [
-      {
-        source: '/manifest.json',
-        destination: '/manifest.json',
-      },
-    ]
-  },
+  // Настройки для мобильных устройств - отключены для статического экспорта
+  // async rewrites() { ... } - несовместимо с export
 }
 
 module.exports = nextConfig
