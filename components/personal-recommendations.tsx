@@ -23,6 +23,10 @@ interface Activity {
   equipment?: string[]
 }
 
+interface ActivityWithScore extends Activity {
+  score: number
+}
+
 interface PersonalityProfile {
   type: string
   preferences: string[]
@@ -152,7 +156,7 @@ export function PersonalRecommendations() {
     energyLevel: "medium",
     socialPreference: "small-group",
   })
-  const [recommendedActivities, setRecommendedActivities] = useState<Activity[]>([])
+  const [recommendedActivities, setRecommendedActivities] = useState<ActivityWithScore[]>([])
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null)
 
   useEffect(() => {
