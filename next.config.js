@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   // Оптимизация изображений
   images: {
     formats: ['image/webp', 'image/avif'],
