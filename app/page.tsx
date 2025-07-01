@@ -1035,7 +1035,7 @@ export default function KareliaRetreatLanding() {
                         selected={checkOutDate}
                         onSelect={setCheckOutDate}
                         disabled={(date) =>
-                          date < new Date() || date > new Date("2024-07-14") || (checkInDate && date <= checkInDate)
+                          date < new Date() || date > new Date("2024-07-14") || (checkInDate ? date <= checkInDate : false)
                         }
                         initialFocus
                         className="text-stone-100"
